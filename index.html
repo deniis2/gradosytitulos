@@ -1,0 +1,1966 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SQL Server — Semana 09 · 5 Infografías Premium</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+:root {
+  --bg:     #060810;
+  --s1:     #0C0E18;
+  --s2:     #121520;
+  --s3:     #181B27;
+  --border: rgba(255,255,255,0.07);
+  --bd2:    rgba(255,255,255,0.04);
+  --text:   #E4E8F5;
+  --muted:  rgba(228,232,245,0.52);
+  --muted2: rgba(228,232,245,0.28);
+  /* Accent per page — overridden inline */
+  --ac: #2DDCA8;
+  --ac-rgb: 45,220,168;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ═══════════════════════════════════════════
+   NAV
+═══════════════════════════════════════════ */
+.nav {
+  position: sticky; top: 0; z-index: 500;
+  background: rgba(6,8,16,0.94);
+  backdrop-filter: blur(24px) saturate(1.6);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: stretch;
+  padding: 0 24px;
+  overflow-x: auto;
+  gap: 0;
+}
+.nav-logo {
+  display: flex; flex-direction: column;
+  justify-content: center; gap: 2px;
+  padding: 0 24px 0 0;
+  border-right: 1px solid var(--border);
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+.nl-top {
+  font-family: 'Syne', sans-serif;
+  font-size: 9.5px; font-weight: 700;
+  letter-spacing: .22em; text-transform: uppercase;
+  color: var(--muted2);
+}
+.nl-bot {
+  font-family: 'Syne', sans-serif;
+  font-size: 13px; font-weight: 800;
+  color: var(--text); letter-spacing: .01em;
+}
+
+.tab-btn {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700; font-size: 11px;
+  letter-spacing: .06em; text-transform: uppercase;
+  padding: 0 18px;
+  background: none; border: none;
+  color: var(--muted); cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: color .22s, border-color .22s;
+  display: flex; flex-direction: column;
+  justify-content: center; gap: 3px;
+  min-height: 64px; white-space: nowrap;
+}
+.tab-btn .tsub {
+  font-size: 9px; font-weight: 500;
+  letter-spacing: .1em; color: var(--muted2);
+}
+.tab-btn:hover { color: rgba(228,232,245,.9); }
+.tab-btn.active {
+  color: #fff;
+  border-bottom-color: var(--ac);
+}
+
+/* ═══════════════════════════════════════════
+   PAGE SYSTEM
+═══════════════════════════════════════════ */
+.page { display: none; }
+.page.active { display: block; animation: fadeIn .3s ease; }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ═══════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════ */
+.hero {
+  position: relative; overflow: hidden;
+  min-height: 400px;
+  display: flex; flex-direction: column;
+  justify-content: flex-end;
+  padding: 80px 72px 58px;
+}
+.hbg { position: absolute; inset: 0; z-index: 0; }
+.hgrid {
+  position: absolute; inset: 0; z-index: 1;
+  background-image:
+    linear-gradient(rgba(255,255,255,.024) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.024) 1px, transparent 1px);
+  background-size: 52px 52px;
+}
+.hblob {
+  position: absolute; border-radius: 50%;
+  filter: blur(100px); z-index: 2; pointer-events: none;
+}
+.hnum {
+  position: absolute; right: 60px; top: 24px;
+  font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: 200px; line-height: 1;
+  color: rgba(255,255,255,.03);
+  user-select: none; letter-spacing: -.04em; z-index: 3;
+}
+.htag {
+  position: relative; z-index: 10;
+  font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700;
+  letter-spacing: .22em; text-transform: uppercase;
+  color: var(--ac); margin-bottom: 18px;
+  display: flex; align-items: center; gap: 14px;
+}
+.htag::before {
+  content: '';
+  display: block; width: 40px; height: 2.5px;
+  background: var(--ac); border-radius: 2px;
+}
+.htitle {
+  position: relative; z-index: 10;
+  font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: clamp(40px, 5vw, 70px);
+  line-height: 1.03; color: #fff;
+  max-width: 660px; margin-bottom: 20px;
+  letter-spacing: -.02em;
+}
+.htitle em { font-style: normal; color: var(--ac); }
+.hsub {
+  position: relative; z-index: 10;
+  font-size: 15.5px; line-height: 1.75;
+  color: var(--muted); max-width: 580px; margin-bottom: 32px;
+}
+.hsub strong { color: var(--text); font-weight: 600; }
+.hchips { position: relative; z-index: 10; display: flex; flex-wrap: wrap; gap: 10px; }
+.hchip {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px; font-weight: 500;
+  padding: 7px 16px; border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--ac) 42%, transparent);
+  background: color-mix(in srgb, var(--ac) 9%, transparent);
+  color: var(--ac);
+}
+.hdeco {
+  position: absolute; right: 80px; top: 50%;
+  transform: translateY(-50%); z-index: 6;
+}
+
+/* ═══════════════════════════════════════════
+   LAYOUT
+═══════════════════════════════════════════ */
+.wrap { max-width: 1380px; margin: 0 auto; padding: 60px 72px; }
+.g2 { display: grid; grid-template-columns: 1fr 1fr;   gap: 22px; margin-bottom: 36px; }
+.g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; margin-bottom: 36px; }
+.g4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 36px; }
+.full { margin-bottom: 36px; }
+
+/* ═══════════════════════════════════════════
+   SECTION LABEL
+═══════════════════════════════════════════ */
+.sl {
+  font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700;
+  letter-spacing: .22em; text-transform: uppercase;
+  color: var(--ac); margin-bottom: 10px;
+  display: flex; align-items: center; gap: 12px;
+}
+.sl::after {
+  content: ''; flex: 1; height: 1px;
+  background: color-mix(in srgb, var(--ac) 20%, transparent);
+}
+.sh {
+  font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: 22px; color: #fff;
+  margin-bottom: 26px; letter-spacing: -.01em;
+}
+
+/* ═══════════════════════════════════════════
+   STAT BAR
+═══════════════════════════════════════════ */
+.statbar {
+  display: flex; gap: 0; margin-bottom: 52px;
+  border: 1px solid var(--border); border-radius: 16px; overflow: hidden;
+}
+.stat {
+  flex: 1; padding: 26px 18px; background: var(--s1);
+  border-right: 1px solid var(--border); text-align: center;
+  transition: background .2s;
+}
+.stat:last-child { border-right: none; }
+.stat:hover { background: var(--s2); }
+.stat-n {
+  font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: 34px; color: var(--ac); line-height: 1; margin-bottom: 6px;
+}
+.stat-l { font-size: 11.5px; color: var(--muted); }
+
+/* ═══════════════════════════════════════════
+   CARDS
+═══════════════════════════════════════════ */
+.card {
+  background: var(--s1); border: 1px solid var(--border);
+  border-radius: 14px; padding: 24px;
+  transition: transform .22s, border-color .22s, background .22s;
+}
+.card:hover {
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--ac) 38%, transparent);
+  background: var(--s2);
+}
+.card.hl {
+  border-color: color-mix(in srgb, var(--ac) 45%, transparent);
+  background: color-mix(in srgb, var(--ac) 8%, var(--s1));
+}
+.card-ico { font-size: 30px; margin-bottom: 14px; line-height: 1; }
+.card-h {
+  font-family: 'Syne', sans-serif; font-weight: 700;
+  font-size: 14px; color: #fff; margin-bottom: 8px;
+}
+.card-h.ac { color: var(--ac); }
+.card-p { font-size: 13px; color: var(--muted); line-height: 1.7; }
+.card-tag {
+  display: inline-block; margin-top: 11px;
+  font-family: 'JetBrains Mono', monospace; font-size: 10px;
+  padding: 3px 10px; border-radius: 4px;
+  background: rgba(255,255,255,.07); color: var(--muted);
+}
+
+/* ═══════════════════════════════════════════
+   CODE BLOCK — estilo Catppuccin Mocha claro
+═══════════════════════════════════════════ */
+.codeblock {
+  background: #050709;
+  border: 1px solid var(--border);
+  border-left: 3.5px solid var(--ac);
+  border-radius: 12px; overflow: hidden;
+  margin-bottom: 32px;
+}
+.cb-bar {
+  background: rgba(255,255,255,.032);
+  padding: 11px 20px;
+  display: flex; align-items: center; gap: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.cbd { width: 10px; height: 10px; border-radius: 50%; }
+.cbd-r { background: #FF5F57; }
+.cbd-y { background: #FEBC2E; }
+.cbd-g { background: #28C840; }
+.cb-lang {
+  margin-left: auto;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px; color: var(--muted2);
+}
+.cb-body {
+  padding: 28px 30px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px; line-height: 1.9;
+  color: #CDD6F4; overflow-x: auto;
+}
+/* Catppuccin Mocha syntax colours */
+.kw  { color: #CBA6F7; font-weight: 600; }  /* keywords  — mauve */
+.fn  { color: #89B4FA; }                      /* functions — blue  */
+.st  { color: #A6E3A1; }                      /* strings   — green */
+.cm  { color: #585B70; font-style: italic; }  /* comments  — overlay0 */
+.tp  { color: #FAB387; }                      /* types     — peach */
+.vl  { color: #F9E2AF; }                      /* values    — yellow*/
+.op  { color: #89DCEB; }                      /* operators — sky   */
+.pn  { color: #CDD6F4; }                      /* punc      — text  */
+.nm  { color: #F38BA8; }                      /* names/obj — red   */
+
+/* ═══════════════════════════════════════════
+   TABLE
+═══════════════════════════════════════════ */
+.tw { border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 36px; }
+.tw table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.tw th {
+  font-family: 'Syne', sans-serif; font-size: 10.5px; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--ac); padding: 14px 18px;
+  background: color-mix(in srgb, var(--ac) 9%, var(--s1));
+  border-bottom: 2px solid color-mix(in srgb, var(--ac) 30%, transparent);
+  text-align: left;
+}
+.tw td {
+  padding: 13px 18px;
+  border-bottom: 1px solid var(--border);
+  color: var(--muted); line-height: 1.6; vertical-align: top;
+}
+.tw tr:last-child td { border-bottom: none; }
+.tw tr:hover td { background: rgba(255,255,255,.018); }
+.badge {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace; font-size: 10.5px;
+  padding: 3px 9px; border-radius: 5px;
+  background: rgba(255,255,255,.08); color: rgba(255,255,255,.78);
+}
+.b-ac  { background: color-mix(in srgb, var(--ac) 16%, transparent); color: var(--ac); }
+.b-ok  { background: rgba(166,227,161,.14); color: #A6E3A1; }
+.b-wn  { background: rgba(249,226,175,.14); color: #F9E2AF; }
+.b-er  { background: rgba(243,139,168,.14); color: #F38BA8; }
+.b-bl  { background: rgba(137,180,250,.14); color: #89B4FA; }
+
+/* ═══════════════════════════════════════════
+   STEPS
+═══════════════════════════════════════════ */
+.steps { display: flex; flex-direction: column; margin-bottom: 36px; }
+.step {
+  display: flex; gap: 22px;
+  padding: 22px 0; border-bottom: 1px solid var(--border);
+}
+.step:last-child { border-bottom: none; }
+.step-num {
+  width: 42px; height: 42px; border-radius: 50%;
+  flex-shrink: 0; background: var(--ac); color: #000;
+  font-family: 'Syne', sans-serif; font-weight: 800; font-size: 16px;
+  display: flex; align-items: center; justify-content: center;
+}
+.step-body { flex: 1; }
+.step-h {
+  font-family: 'Syne', sans-serif; font-weight: 700;
+  font-size: 15px; color: #fff; margin-bottom: 7px;
+}
+.step-p { font-size: 13px; color: var(--muted); line-height: 1.7; }
+.step-note {
+  margin-top: 9px;
+  font-family: 'JetBrains Mono', monospace; font-size: 11.5px;
+  color: var(--ac);
+  padding: 7px 14px; border-radius: 7px; border-left: 2.5px solid var(--ac);
+  background: color-mix(in srgb, var(--ac) 8%, transparent);
+}
+
+/* ═══════════════════════════════════════════
+   FLOW BAR
+═══════════════════════════════════════════ */
+.flowbar {
+  display: flex; align-items: stretch;
+  border: 1px solid var(--border); border-radius: 14px;
+  overflow: hidden; margin-bottom: 36px;
+}
+.fb {
+  flex: 1; padding: 22px 16px; background: var(--s1);
+  border-right: 1px solid var(--border); text-align: center;
+  transition: background .2s;
+}
+.fb:last-child { border-right: none; }
+.fb:hover { background: var(--s2); }
+.fb.hl { background: color-mix(in srgb, var(--ac) 10%, var(--s1)); }
+.fb-label {
+  font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700;
+  letter-spacing: .16em; text-transform: uppercase;
+  color: var(--ac); margin-bottom: 6px;
+}
+.fb-name {
+  font-family: 'Syne', sans-serif; font-weight: 700;
+  font-size: 13px; color: #fff; margin-bottom: 4px;
+}
+.fb-sub { font-size: 11.5px; color: var(--muted); }
+.fb-arr {
+  display: flex; align-items: center; padding: 0 6px;
+  background: var(--s1); color: var(--ac);
+  font-size: 20px; font-weight: 700; flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════════
+   INFO BOXES
+═══════════════════════════════════════════ */
+.ibox {
+  border-radius: 13px; padding: 20px 24px;
+  margin-bottom: 16px;
+  border: 1px solid; border-left-width: 4px;
+}
+.ibox.good {
+  border-color: rgba(166,227,161,.22);
+  border-left-color: #A6E3A1;
+  background: rgba(166,227,161,.05);
+}
+.ibox.warn {
+  border-color: rgba(249,226,175,.22);
+  border-left-color: #F9E2AF;
+  background: rgba(249,226,175,.05);
+}
+.ibox.info {
+  border-color: rgba(137,180,250,.22);
+  border-left-color: #89B4FA;
+  background: rgba(137,180,250,.05);
+}
+.ibox.neutral {
+  border-color: var(--border);
+  border-left-color: var(--ac);
+  background: color-mix(in srgb, var(--ac) 5%, transparent);
+}
+.ibox-h {
+  font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase; margin-bottom: 8px;
+}
+.ibox.good .ibox-h { color: #A6E3A1; }
+.ibox.warn .ibox-h { color: #F9E2AF; }
+.ibox.info .ibox-h { color: #89B4FA; }
+.ibox.neutral .ibox-h { color: var(--ac); }
+.ibox-p { font-size: 13px; color: var(--muted); line-height: 1.7; }
+.ibox-code {
+  font-family: 'JetBrains Mono', monospace; font-size: 11.5px;
+  color: var(--text); margin-top: 8px;
+}
+
+/* ═══════════════════════════════════════════
+   PILLS
+═══════════════════════════════════════════ */
+.pills { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 32px; }
+.pill {
+  font-family: 'JetBrains Mono', monospace; font-size: 12px;
+  padding: 7px 18px; border-radius: 999px;
+  border: 1px solid var(--ac);
+  color: var(--ac);
+  background: color-mix(in srgb, var(--ac) 9%, transparent);
+}
+
+/* ═══════════════════════════════════════════
+   VS COMPARE
+═══════════════════════════════════════════ */
+.vs-wrap {
+  display: grid; grid-template-columns: 1fr 60px 1fr;
+  gap: 0; margin-bottom: 36px; align-items: start;
+}
+.vs-col {
+  background: var(--s1); border: 1px solid var(--border);
+  border-radius: 14px; padding: 26px;
+}
+.vs-mid {
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: 18px; color: var(--muted2); padding-top: 40px;
+}
+.vs-col-h {
+  font-family: 'Syne', sans-serif; font-weight: 700;
+  font-size: 15px; color: var(--ac); margin-bottom: 18px;
+  display: flex; align-items: center; gap: 10px;
+}
+.vs-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 13px; color: var(--muted); line-height: 1.65;
+  margin-bottom: 11px; padding-bottom: 11px;
+  border-bottom: 1px solid var(--bd2);
+}
+.vs-item:last-child { border-bottom: none; margin-bottom: 0; }
+.vsdot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--ac); flex-shrink: 0; margin-top: 7px;
+}
+
+/* ═══════════════════════════════════════════
+   PROGRESS
+═══════════════════════════════════════════ */
+.prog { margin-bottom: 18px; }
+.prog-row {
+  display: flex; justify-content: space-between;
+  margin-bottom: 7px; font-size: 13px;
+}
+.prog-name { color: var(--text); font-weight: 500; }
+.prog-val { font-family: 'JetBrains Mono', monospace; color: var(--ac); }
+.prog-track {
+  height: 7px; background: rgba(255,255,255,.07);
+  border-radius: 4px; overflow: hidden;
+}
+.prog-fill {
+  height: 100%; border-radius: 4px; background: var(--ac);
+  transition: width 1.3s cubic-bezier(.23,1,.32,1);
+}
+
+/* ═══════════════════════════════════════════
+   DIVIDER
+═══════════════════════════════════════════ */
+.div { height: 1px; background: var(--border); margin: 48px 0; }
+
+/* ═══════════════════════════════════════════
+   FOOTER CALLOUT
+═══════════════════════════════════════════ */
+.callout {
+  margin: 48px 72px 68px;
+  background: color-mix(in srgb, var(--ac) 10%, var(--s1));
+  border: 1px solid color-mix(in srgb, var(--ac) 30%, transparent);
+  border-radius: 18px; padding: 32px 40px;
+  display: flex; align-items: center; gap: 28px;
+}
+.callout-ico { font-size: 44px; flex-shrink: 0; }
+.callout-body { flex: 1; }
+.callout-h {
+  font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: 17px; color: #fff; margin-bottom: 7px;
+}
+.callout-p { font-size: 13.5px; color: var(--muted); line-height: 1.68; }
+.callout-badge {
+  flex-shrink: 0;
+  font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+  padding: 13px 26px; background: var(--ac);
+  color: #000; border-radius: 10px;
+}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════ */
+@media (max-width: 920px) {
+  .hero { padding: 60px 24px 42px; }
+  .wrap { padding: 40px 24px; }
+  .g2, .g3, .g4 { grid-template-columns: 1fr 1fr; }
+  .hdeco { display: none; }
+  .callout { flex-direction: column; margin: 36px 24px 52px; }
+  .hnum { font-size: 120px; right: 16px; }
+  .vs-wrap { grid-template-columns: 1fr; }
+  .vs-mid { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ NAV ═══════════════════ -->
+<nav class="nav" id="topnav">
+  <div class="nav-logo">
+    <div class="nl-top">SQL Server · Semana 09</div>
+    <div class="nl-bot">Base de Datos II</div>
+  </div>
+  <button class="tab-btn active" style="--ac:#2DDCA8" onclick="show(0,this)">
+    01 · Vistas
+    <span class="tsub">Views (sintaxis)</span>
+  </button>
+  <button class="tab-btn" style="--ac:#FFB347" onclick="show(1,this)">
+    02 · Funciones
+    <span class="tsub">UDF (sintaxis)</span>
+  </button>
+  <button class="tab-btn" style="--ac:#A78BFA" onclick="show(2,this)">
+    03 · Esquemas
+    <span class="tsub">Schemas</span>
+  </button>
+  <button class="tab-btn" style="--ac:#38BDF8" onclick="show(3,this)">
+    04 · Índices
+    <span class="tsub">Indexes B-Tree</span>
+  </button>
+  <button class="tab-btn" style="--ac:#FB7185" onclick="show(4,this)">
+    05 · Stored Procedures
+    <span class="tsub">Procedimientos almacenados</span>
+  </button>
+</nav>
+
+
+<!-- ╔═══════════════════════════════════════╗
+     ║  PÁGINA 1 — VISTAS                   ║
+     ╚═══════════════════════════════════════╝ -->
+<div class="page active" id="p0" style="--ac:#2DDCA8">
+
+  <div class="hero">
+    <div class="hbg" style="background:linear-gradient(140deg,#010F0A 0%,#041A12 48%,#060810 100%)"></div>
+    <div class="hgrid"></div>
+    <div class="hblob" style="width:560px;height:560px;background:#2DDCA8;top:-150px;right:-90px;opacity:.2"></div>
+    <div class="hblob" style="width:280px;height:280px;background:#10B981;bottom:-60px;left:300px;opacity:.16"></div>
+    <div class="hnum">01</div>
+
+    <!-- SVG DECO: Ojo (vista = ver sin poseer) -->
+    <div class="hdeco">
+      <svg width="300" height="260" viewBox="0 0 300 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Outer glow ring -->
+        <ellipse cx="150" cy="130" rx="130" ry="70" stroke="rgba(45,220,168,0.15)" stroke-width="1" fill="none"/>
+        <!-- Eye outline -->
+        <path d="M20 130 Q90 30 150 30 Q210 30 280 130 Q210 230 150 230 Q90 230 20 130Z"
+              fill="rgba(45,220,168,0.05)" stroke="rgba(45,220,168,0.35)" stroke-width="1.5"/>
+        <!-- Iris -->
+        <circle cx="150" cy="130" r="52" fill="rgba(45,220,168,0.1)" stroke="rgba(45,220,168,0.5)" stroke-width="1.5"/>
+        <!-- Pupil -->
+        <circle cx="150" cy="130" r="26" fill="rgba(45,220,168,0.2)" stroke="#2DDCA8" stroke-width="2"/>
+        <!-- Inner dot -->
+        <circle cx="150" cy="130" r="9" fill="#2DDCA8" opacity=".85"/>
+        <!-- Reflection dot -->
+        <circle cx="162" cy="118" r="4" fill="rgba(255,255,255,0.6)"/>
+        <!-- Eyelashes top -->
+        <line x1="150" y1="30"  x2="150" y2="14"  stroke="rgba(45,220,168,0.3)" stroke-width="1.5"/>
+        <line x1="105" y1="48"  x2="98"  y2="34"  stroke="rgba(45,220,168,0.2)" stroke-width="1.5"/>
+        <line x1="195" y1="48"  x2="202" y2="34"  stroke="rgba(45,220,168,0.2)" stroke-width="1.5"/>
+        <!-- Table notation (VIEW sits on top of tables) -->
+        <rect x="52"  y="190" width="54" height="36" rx="5" fill="rgba(45,220,168,0.08)" stroke="rgba(45,220,168,0.3)" stroke-width="1"/>
+        <text x="56"  y="207" fill="rgba(45,220,168,0.7)" font-family="JetBrains Mono" font-size="7.5">TABLE_A</text>
+        <text x="58"  y="220" fill="rgba(45,220,168,0.5)" font-family="JetBrains Mono" font-size="6.5">id · col1 · col2</text>
+        <rect x="122" y="190" width="54" height="36" rx="5" fill="rgba(45,220,168,0.08)" stroke="rgba(45,220,168,0.3)" stroke-width="1"/>
+        <text x="126" y="207" fill="rgba(45,220,168,0.7)" font-family="JetBrains Mono" font-size="7.5">TABLE_B</text>
+        <text x="128" y="220" fill="rgba(45,220,168,0.5)" font-family="JetBrains Mono" font-size="6.5">id · col3 · col4</text>
+        <rect x="192" y="190" width="54" height="36" rx="5" fill="rgba(45,220,168,0.08)" stroke="rgba(45,220,168,0.3)" stroke-width="1"/>
+        <text x="196" y="207" fill="rgba(45,220,168,0.7)" font-family="JetBrains Mono" font-size="7.5">VIEW_X</text>
+        <text x="198" y="220" fill="rgba(45,220,168,0.5)" font-family="JetBrains Mono" font-size="6.5">virtual · no data</text>
+        <!-- Arrows to view -->
+        <line x1="79"  y1="190" x2="195" y2="190" stroke="rgba(45,220,168,0.35)" stroke-width="1" stroke-dasharray="4 3"/>
+        <line x1="149" y1="190" x2="210" y2="190" stroke="rgba(45,220,168,0.25)" stroke-width="1" stroke-dasharray="4 3"/>
+      </svg>
+    </div>
+
+    <div class="htag">SQL Server · Semana 09 · Base de Datos II · Infografía 1/5</div>
+    <h1 class="htitle">VISTAS<br><em>Views</em></h1>
+    <p class="hsub">Una vista es una <strong>tabla virtual</strong> cuyo contenido se define mediante una consulta SELECT. No almacena datos propios — actúa como una ventana hacia una o más tablas base. Permite simplificar consultas, mejorar la seguridad y abstraer la complejidad del esquema.</p>
+    <div class="hchips">
+      <span class="hchip">No almacena datos</span>
+      <span class="hchip">Tabla virtual</span>
+      <span class="hchip">3 tipos principales</span>
+      <span class="hchip">Seguridad de columnas</span>
+      <span class="hchip">CREATE VIEW · ALTER VIEW · DROP VIEW</span>
+    </div>
+  </div>
+
+  <div class="wrap">
+
+    <div class="statbar">
+      <div class="stat"><div class="stat-n">0 KB</div><div class="stat-l">Datos almacenados (vista simple)</div></div>
+      <div class="stat"><div class="stat-n">∞</div><div class="stat-l">JOINs que puede unificar</div></div>
+      <div class="stat"><div class="stat-n">3</div><div class="stat-l">Tipos de vistas en SQL Server</div></div>
+      <div class="stat"><div class="stat-n">4</div><div class="stat-l">Cláusulas WITH opcionales</div></div>
+      <div class="stat"><div class="stat-n">✓</div><div class="stat-l">DML permitido (vista simple)</div></div>
+    </div>
+
+    <!-- Sintaxis completa -->
+    <div class="sl">Sintaxis oficial — Microsoft Docs</div>
+    <p class="sh">CREATE VIEW — Sintaxis completa en SQL Server</p>
+
+    <div class="codeblock">
+      <div class="cb-bar">
+        <span class="cbd cbd-r"></span><span class="cbd cbd-y"></span><span class="cbd cbd-g"></span>
+        <span class="cb-lang">T-SQL · SQL Server 2019+ · Fuente: docs.microsoft.com</span>
+      </div>
+      <div class="cb-body">
+<span class="cm">-- ────────────────────────────────────────────────────────────</span>
+<span class="cm">-- SINTAXIS GENERAL DE CREATE VIEW</span>
+<span class="cm">-- ────────────────────────────────────────────────────────────</span>
+
+<span class="kw">CREATE</span> <span class="kw">OR ALTER</span> <span class="kw">VIEW</span>  <span class="nm">schema_name</span><span class="pn">.</span><span class="fn">view_name</span>  <span class="pn">[</span> <span class="pn">(</span> column_name <span class="pn">[</span> <span class="pn">,...</span><span class="pn">n ]</span> <span class="pn">)</span> <span class="pn">]</span>
+<span class="pn">[</span> <span class="kw">WITH</span> <span class="pn">&lt;</span>view_attribute<span class="pn">&gt;</span> <span class="pn">[</span> <span class="pn">,...</span><span class="pn">n ]</span> <span class="pn">]</span>
+<span class="kw">AS</span>
+    <span class="kw">SELECT</span> <span class="cm">-- consulta de definición</span>
+<span class="pn">[</span> <span class="kw">WITH CHECK OPTION</span> <span class="pn">]</span><span class="pn">;</span>
+
+
+<span class="cm">-- ────────────────────────────────────────────────────────────</span>
+<span class="cm">-- EJEMPLO 1: Vista simple — un solo SELECT con JOIN</span>
+<span class="cm">-- ────────────────────────────────────────────────────────────</span>
+
+<span class="kw">CREATE OR ALTER VIEW</span>  <span class="nm">dbo</span><span class="pn">.</span><span class="fn">vw_EmpleadosActivos</span>
+<span class="kw">AS</span>
+    <span class="kw">SELECT</span>
+        e<span class="pn">.</span>EmpleadoID<span class="pn">,</span>
+        e<span class="pn">.</span>Nombres    <span class="pn">+</span> <span class="st">' '</span> <span class="pn">+</span>  e<span class="pn">.</span>Apellidos   <span class="kw">AS</span>  NombreCompleto<span class="pn">,</span>
+        d<span class="pn">.</span>NombreDepto                          <span class="kw">AS</span>  Departamento<span class="pn">,</span>
+        e<span class="pn">.</span>Salario<span class="pn">,</span>
+        e<span class="pn">.</span>FechaIngreso
+    <span class="kw">FROM</span>   Empleados      e
+    <span class="kw">JOIN</span>   Departamentos  d  <span class="kw">ON</span>  e<span class="pn">.</span>DepID  <span class="pn">=</span>  d<span class="pn">.</span>DepID
+    <span class="kw">WHERE</span>  e<span class="pn">.</span>Estado  <span class="pn">=</span>  <span class="st">'Activo'</span><span class="pn">;</span>
+<span class="kw">GO</span>
+
+
+<span class="cm">-- Consultar la vista exactamente como una tabla</span>
+<span class="kw">SELECT</span>  <span class="pn">*</span>
+<span class="kw">FROM</span>    <span class="nm">dbo</span><span class="pn">.</span><span class="fn">vw_EmpleadosActivos</span>
+<span class="kw">WHERE</span>   Departamento  <span class="pn">=</span>  <span class="st">'Ingeniería'</span>
+<span class="kw">ORDER BY</span>  NombreCompleto<span class="pn">;</span>
+<span class="kw">GO</span>
+
+
+<span class="cm">-- ────────────────────────────────────────────────────────────</span>
+<span class="cm">-- EJEMPLO 2: Vista con ENCRYPTION y SCHEMABINDING</span>
+<span class="cm">-- WITH ENCRYPTION  → protege el código fuente de la vista</span>
+<span class="cm">-- WITH SCHEMABINDING → impide modificar/eliminar tablas base</span>
+<span class="cm">-- ────────────────────────────────────────────────────────────</span>
+
+<span class="kw">CREATE OR ALTER VIEW</span>  <span class="nm">dbo</span><span class="pn">.</span><span class="fn">vw_SalariosConfidenciales</span>
+<span class="kw">WITH</span>  <span class="kw">ENCRYPTION</span><span class="pn">,</span>  <span class="kw">SCHEMABINDING</span>
+<span class="kw">AS</span>
+    <span class="kw">SELECT</span>
+        e<span class="pn">.</span>EmpleadoID<span class="pn">,</span>
+        e<span class="pn">.</span>Salario<span class="pn">,</span>
+        e<span class="pn">.</span>NivelSalarial
+    <span class="kw">FROM</span>  <span class="nm">dbo</span><span class="pn">.</span>Empleados  e<span class="pn">;</span>     <span class="cm">-- SCHEMABINDING requiere schema.table</span>
+<span class="kw">GO</span>
+
+
+<span class="cm">-- ────────────────────────────────────────────────────────────</span>
+<span class="cm">-- EJEMPLO 3: Vista indexada (materializada) — mejora rendimiento</span>
+<span class="cm">-- Requiere SCHEMABINDING + índice CLUSTERED UNIQUE</span>
+<span class="cm">-- ────────────────────────────────────────────────────────────</span>
+
+<span class="kw">CREATE OR ALTER VIEW</span>  <span class="nm">dbo</span><span class="pn">.</span><span class="fn">vw_TotalVentasPorProducto</span>
+<span class="kw">WITH</span>  <span class="kw">SCHEMABINDING</span>
+<span class="kw">AS</span>
+    <span class="kw">SELECT</span>
+        ProductoID<span class="pn">,</span>
+        <span class="fn">SUM</span><span class="pn">(</span>Cantidad<span class="pn">)</span>    <span class="kw">AS</span>  TotalCantidad<span class="pn">,</span>
+        <span class="fn">SUM</span><span class="pn">(</span>Importe<span class="pn">)</span>     <span class="kw">AS</span>  TotalImporte<span class="pn">,</span>
+        <span class="fn">COUNT_BIG</span><span class="pn">(</span><span class="pn">*)</span>     <span class="kw">AS</span>  NumTransacciones
+    <span class="kw">FROM</span>  <span class="nm">dbo</span><span class="pn">.</span>DetalleVentas
+    <span class="kw">GROUP BY</span>  ProductoID<span class="pn">;</span>
+<span class="kw">GO</span>
+
+<span class="cm">-- Crear índice físico sobre la vista (la materializa en disco)</span>
+<span class="kw">CREATE UNIQUE CLUSTERED INDEX</span>  <span class="fn">IX_vw_TotalVentas_Producto</span>
+    <span class="kw">ON</span>  <span class="nm">dbo</span><span class="pn">.</span><span class="fn">vw_TotalVentasPorProducto</span>  <span class="pn">(</span>ProductoID<span class="pn">);</span>
+<span class="kw">GO</span>
+
+
+<span class="cm">-- ────────────────────────────────────────────────────────────</span>
+<span class="cm">-- GESTIÓN DE VISTAS</span>
+<span class="cm">-- ────────────────────────────────────────────────────────────</span>
+
+<span class="kw">ALTER VIEW</span>   <span class="nm">dbo</span><span class="pn">.</span><span class="fn">vw_EmpleadosActivos</span>  <span class="kw">AS</span>  <span class="kw">SELECT</span>  <span class="pn">...</span><span class="pn">;</span>   <span class="cm">-- modificar</span>
+<span class="kw">DROP VIEW</span>    <span class="nm">dbo</span><span class="pn">.</span><span class="fn">vw_EmpleadosActivos</span><span class="pn">;</span>                  <span class="cm">-- eliminar</span>
+<span class="kw">SELECT</span>  <span class="pn">*</span>  <span class="kw">FROM</span>  <span class="nm">sys</span><span class="pn">.</span><span class="fn">views</span><span class="pn">;</span>                            <span class="cm">-- listar vistas</span>
+<span class="kw">EXEC</span>  <span class="fn">sp_helptext</span>  <span class="st">'dbo.vw_EmpleadosActivos'</span><span class="pn">;</span>           <span class="cm">-- ver definición</span>
+      </div>
+    </div>
+
+    <!-- Tipos de vistas -->
+    <div class="sl">Tipos de vistas</div>
+    <p class="sh">Los 3 tipos que ofrece SQL Server</p>
+
+    <div class="g3">
+      <div class="card hl">
+        <div class="card-ico">🔍</div>
+        <div class="card-h ac">Vista Simple</div>
+        <div class="card-p">Basada en una sola tabla. No usa GROUP BY ni funciones de agregado. Permite operaciones DML (INSERT, UPDATE, DELETE) directamente sobre la vista, que se reflejan en la tabla base.</div>
+        <div class="card-tag">DML permitido</div>
+      </div>
+      <div class="card">
+        <div class="card-ico">🔗</div>
+        <div class="card-h">Vista Compleja</div>
+        <div class="card-p">Involucra múltiples tablas con JOINs, GROUP BY, HAVING o funciones de agregado (SUM, COUNT…). Es de solo lectura — el motor no puede inferir cómo actualizar las tablas base sin ambigüedad.</div>
+        <div class="card-tag">Solo lectura</div>
+      </div>
+      <div class="card">
+        <div class="card-ico">⚡</div>
+        <div class="card-h">Vista Indexada (Materializada)</div>
+        <div class="card-p">Los resultados del SELECT se almacenan físicamente en disco con un índice CLUSTERED UNIQUE. Consultas muy rápidas porque evitan recalcular el JOIN/agregado. Requiere WITH SCHEMABINDING.</div>
+        <div class="card-tag">Datos en disco</div>
+      </div>
+    </div>
+
+    <div class="div"></div>
+
+    <!-- Cláusulas WITH -->
+    <div class="sl">Cláusulas WITH opcionales</div>
+    <p class="sh">Modificadores de comportamiento de la vista</p>
+
+    <div class="tw">
+      <table>
+        <thead>
+          <tr><th>Cláusula</th><th>Qué hace</th><th>Cuándo usar</th><th>Restricciones</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="badge b-ac">WITH ENCRYPTION</span></td>
+            <td>Cifra el texto de definición en sys.syscomments. No se puede leer con sp_helptext</td>
+            <td>Código propietario o sensible que no debe verse</td>
+            <td>No se puede descifrar fácilmente; guarda el original</td>
+          </tr>
+          <tr>
+            <td><span class="badge b-ac">WITH SCHEMABINDING</span></td>
+            <td>Vincula la vista a las tablas base: impide DROP TABLE o ALTER TABLE que elimine columnas usadas</td>
+            <td>Antes de crear una vista indexada (requisito)</td>
+            <td>Referencias deben incluir schema: dbo.Tabla</td>
+          </tr>
+          <tr>
+            <td><span class="badge b-ac">WITH CHECK OPTION</span></td>
+            <td>Garantiza que toda inserción/actualización a través de la vista cumpla la cláusula WHERE de la vista</td>
+            <td>Cuando la vista tiene WHERE y se hacen DML</td>
+            <td>Solo vistas simples actualizables</td>
+          </tr>
+          <tr>
+            <td><span class="badge b-ac">WITH VIEW_METADATA</span></td>
+            <td>Devuelve metadatos de la vista (no de las tablas base) al driver ODBC/OLE DB</td>
+            <td>Aplicaciones que usan la vista como si fuera tabla</td>
+            <td>Afecta la información de esquema devuelta</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Ventajas y limitaciones -->
+    <div class="sl">Ventajas clave</div>
+    <p class="sh">¿Por qué usar vistas en producción?</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-h">Seguridad granular — ocultar columnas sensibles</div>
+          <div class="step-p">Crea una vista sin las columnas de salario, contraseña o DNI. Otorga SELECT sobre la vista en lugar de la tabla. El usuario solo ve las columnas permitidas — nunca accede a la tabla directamente.</div>
+          <div class="step-note">GRANT SELECT ON dbo.vw_EmpleadosPublicos TO UsuarioReporte;</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-h">Abstracción — encapsular complejidad</div>
+          <div class="step-p">Un JOIN de 5 tablas con 3 condiciones WHERE queda encapsulado en un nombre legible. Las aplicaciones consultan vw_ResumenPedido sin conocer la estructura interna del esquema.</div>
+          <div class="step-note">SELECT * FROM vw_ResumenPedido WHERE PedidoID = 1001; -- simple para el dev</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-h">Independencia lógica — cambios sin romper aplicaciones</div>
+          <div class="step-p">Si se refactoriza la estructura de tablas (dividir Clientes en ClienteNacional y ClienteInternacional), se actualiza la vista y las aplicaciones siguen funcionando sin cambios en su código SQL.</div>
+          <div class="step-note">Modifica la vista → las apps que la consumen no cambian ✓</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-h">Rendimiento con vistas indexadas</div>
+          <div class="step-p">Para agregaciones pesadas (SUM de millones de filas), una vista indexada precalcula y almacena los resultados. SQL Server puede usar ese índice automáticamente incluso en consultas sobre las tablas base (NOEXPAND hint).</div>
+          <div class="step-note">SELECT * FROM dbo.vw_TotalVentas WITH (NOEXPAND); -- usa el índice físico</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sl">Cláusulas opcionales</div>
+    <div class="pills">
+      <span class="pill">WITH ENCRYPTION</span>
+      <span class="pill">WITH SCHEMABINDING</span>
+      <span class="pill">WITH CHECK OPTION</span>
+      <span class="pill">WITH VIEW_METADATA</span>
+      <span class="pill">CREATE OR ALTER VIEW</span>
+      <span class="pill">sys.views</span>
+      <span class="pill">sp_helptext</span>
+    </div>
+
+  </div>
+
+  <div class="callout">
+    <div class="callout-ico">💡</div>
+    <div class="callout-body">
+      <div class="callout-h">Las vistas NO almacenan datos — son consultas guardadas</div>
+      <div class="callout-p">Cada vez que consultas una vista simple, SQL Server ejecuta su SELECT internamente. La excepción son las vistas indexadas (WITH SCHEMABINDING + índice CLUSTERED UNIQUE), que sí almacenan los datos físicamente en disco para máximo rendimiento.</div>
+    </div>
+    <div class="callout-badge">Infografía 1 / 5</div>
+  </div>
+</div>
+
+
+<!-- ╔═══════════════════════════════════════╗
+     ║  PÁGINA 2 — FUNCIONES                ║
+     ╚═══════════════════════════════════════╝ -->
+<div class="page" id="p1" style="--ac:#FFB347">
+
+  <div class="hero">
+    <div class="hbg" style="background:linear-gradient(140deg,#0F0800 0%,#1C0E00 48%,#080600 100%)"></div>
+    <div class="hgrid"></div>
+    <div class="hblob" style="width:560px;height:560px;background:#FFB347;top:-150px;right:-90px;opacity:.18"></div>
+    <div class="hblob" style="width:280px;height:280px;background:#F59E0B;bottom:-60px;left:300px;opacity:.15"></div>
+    <div class="hnum">02</div>
+
+    <!-- SVG DECO: f(x) matemático + engranaje pequeño -->
+    <div class="hdeco">
+      <svg width="300" height="260" viewBox="0 0 300 260" fill="none">
+        <!-- Background circle -->
+        <circle cx="150" cy="130" r="110" fill="rgba(255,179,71,0.05)" stroke="rgba(255,179,71,0.15)" stroke-width="1"/>
+        <!-- Big f(x) -->
+        <text x="50" y="175" fill="rgba(255,179,71,0.55)" font-family="Syne" font-size="90" font-weight="800">f(x)</text>
+        <!-- Input arrow -->
+        <line x1="20" y1="130" x2="58" y2="130" stroke="rgba(255,179,71,0.6)" stroke-width="2"/>
+        <polygon points="58,125 68,130 58,135" fill="rgba(255,179,71,0.6)"/>
+        <text x="10" y="122" fill="rgba(255,179,71,0.5)" font-family="JetBrains Mono" font-size="10">@param</text>
+        <!-- Output arrow -->
+        <line x1="236" y1="130" x2="274" y2="130" stroke="rgba(255,179,71,0.6)" stroke-width="2"/>
+        <polygon points="274,125 284,130 274,135" fill="rgba(255,179,71,0.6)"/>
+        <text x="240" y="122" fill="rgba(255,179,71,0.5)" font-family="JetBrains Mono" font-size="10">RETURN</text>
+        <!-- Scalar tag -->
+        <rect x="80" y="190" width="62" height="24" rx="6" fill="rgba(255,179,71,0.12)" stroke="rgba(255,179,71,0.4)" stroke-width="1"/>
+        <text x="90" y="206" fill="#FFB347" font-family="JetBrains Mono" font-size="9">Scalar UDF</text>
+        <!-- Table tag -->
+        <rect x="158" y="190" width="70" height="24" rx="6" fill="rgba(255,179,71,0.08)" stroke="rgba(255,179,71,0.3)" stroke-width="1"/>
+        <text x="165" y="206" fill="rgba(255,179,71,0.8)" font-family="JetBrains Mono" font-size="9">Inline TVF</text>
+      </svg>
+    </div>
+
+    <div class="htag">SQL Server · Semana 09 · Base de Datos II · Infografía 2/5</div>
+    <h1 class="htitle">FUNCIONES<br><em>User-Defined Functions</em></h1>
+    <p class="hsub">Las funciones definidas por el usuario (UDF) son bloques de código T-SQL que <strong>aceptan parámetros, contienen lógica</strong> y retornan un valor escalar o una tabla. A diferencia de los Stored Procedures, pueden usarse directamente dentro de un SELECT.</p>
+    <div class="hchips">
+      <span class="hchip">3 tipos de UDF</span>
+      <span class="hchip">Usable en SELECT</span>
+      <span class="hchip">Sin efectos secundarios</span>
+      <span class="hchip">Scalar · Inline TVF · Multi-stmt</span>
+    </div>
+  </div>
+
+  <div class="wrap">
+
+    <div class="statbar">
+      <div class="stat"><div class="stat-n">3</div><div class="stat-l">Tipos de UDF en SQL Server</div></div>
+      <div class="stat"><div class="stat-n">✓</div><div class="stat-l">Usable en SELECT / WHERE / JOIN</div></div>
+      <div class="stat"><div class="stat-n">✗</div><div class="stat-l">No puede modificar tablas permanentes</div></div>
+      <div class="stat"><div class="stat-n">RETURNS</div><div class="stat-l">Valor escalar o TABLE</div></div>
+      <div class="stat"><div class="stat-n">dbo.</div><div class="stat-l">Siempre requiere schema al llamarla</div></div>
+    </div>
+
+    <!-- Tipo 1: Escalar -->
+    <div class="sl">Tipo 1 — Función Escalar</div>
+    <p class="sh">Retorna un único valor: INT, VARCHAR, DECIMAL, DATE, etc.</p>
+
+    <div class="codeblock">
+      <div class="cb-bar">
+        <span class="cbd cbd-r"></span><span class="cbd cbd-y"></span><span class="cbd cbd-g"></span>
+        <span class="cb-lang">T-SQL · Scalar Function · SQL Server 2019+</span>
+      </div>
+      <div class="cb-body">
+<span class="cm">-- ────────────────────────────────────────────────────────────</span>
+<span class="cm">-- FUNCIÓN ESCALAR: calcula precio con IGV (18%)</span>
+<span class="cm">-- Retorna: un solo valor DECIMAL</span>
+<span class="cm">-- ────────────────────────────────────────────────────────────</span>
+
+<span class="kw">CREATE OR ALTER FUNCTION</span>  <span class="nm">dbo</span><span class="pn">.</span><span class="fn">fn_PrecioConIGV</span>  <span class="pn">(</span>
+
+    <span class="op">@PrecioBase</span>   <span class="tp">DECIMAL</span><span class="pn">(10,2)</span><span class="pn">,</span>
+    <span class="op">@PorcentajeIGV</span>  <span class="tp">DECIMAL</span><span class="pn">(4,2)</span>   <span class="pn">=</span>  <span class="vl">18.00</span>    <span class="cm">-- parámetro con DEFAULT</span>
+
+<span class="pn">)</span>
+<span class="kw">RETURNS</span>  <span class="tp">DECIMAL</span><span class="pn">(10,2)</span>
+<span class="kw">AS</span>
+<span class="kw">BEGIN</span>
+
+    <span class="kw">DECLARE</span>  <span class="op">@Resultado</span>  <span class="tp">DECIMAL</span><span class="pn">(10,2)</span><span class="pn">;</span>
+
+    <span class="kw">SET</span>  <span class="op">@Resultado</span>  <span class="pn">=</span>  <span class="op">@PrecioBase</span>  <span class="pn">*</span>  <span class="pn">(</span>  <span class="vl">1</span>  <span class="pn">+</span>  <span class="op">@PorcentajeIGV</span>  <span class="pn">/</span>  <span class="vl">100</span>  <span class="pn">);</span>
+
+    <span class="kw">RETURN</span>  <span class="op">@Resultado</span><span class="pn">;</span>
+
+<span class="kw">END</span><span class="pn">;</span>
+<span class="kw">GO</span>
+
+
+<span class="cm">-- Uso directo en SELECT — sintaxis con schema obligatorio</span>
+<span class="kw">SELECT</span>
+    Producto<span class="pn">,</span>
+    PrecioBase<span class="pn">,</span>
+    <span class="nm">dbo</span><span class="pn">.</span><span class="fn">fn_PrecioConIGV</span><span class="pn">(</span>PrecioBase<span class="pn">,</span> <span class="vl">18</span><span class="pn">)</span>   <span class="kw">AS</span>  PrecioFinal
+<span class="kw">FROM</span>   Catalogo<span class="pn">;</span>
+<span class="kw">GO</span>
+      </div>
+    </div>
+
+    <!-- Tipo 2: Inline TVF -->
+    <div class="sl">Tipo 2 — Función de Tabla en Línea (Inline TVF)</div>
+    <p class="sh">Retorna una tabla — la opción más eficiente para devolver conjuntos de datos</p>
+
+    <div class="codeblock">
+      <div class="cb-bar">
+        <span class="cbd cbd-r"></span><span class="cbd cbd-y"></span><span class="cbd cbd-g"></span>
+        <span class="cb-lang">T-SQL · Inline Table-Valued Function (iTVF)</span>
+      </div>
+      <div class="cb-body">
+<span class="cm">-- ────────────────────────────────────────────────────────────</span>
+<span class="cm">-- INLINE TVF: retorna ventas filtradas de un cliente</span>
+<span class="cm">-- No tiene BEGIN/END — solo RETURN (SELECT...)</span>
+<span class="cm">-- El optimizador puede "expandirla" = muy eficiente</span>
+<span class="cm">-- ────────────────────────────────────────────────────────────</span>
+
+<span class="kw">CREATE OR ALTER FUNCTION</span>  <span class="nm">dbo</span><span class="pn">.</span><span class="fn">fn_VentasPorCliente</span>  <span class="pn">(</span>
+
+    <span class="op">@ClienteID</span>   <span class="tp">INT</span><span class="pn">,</span>
+    <span class="op">@FechaDesde</span>  <span class="tp">DATE</span>
+
+<span class="pn">)</span>
+<span class="kw">RETURNS</span>  <span class="kw">TABLE</span>
+<span class="kw">AS</span>
+<span class="kw">RETURN</span>
+<span class="pn">(</span>
+    <span class="kw">SELECT</span>
+        v<span class="pn">.</span>VentaID<span class="pn">,</span>
+        v<span class="pn">.</span>Fecha<span class="pn">,</span>
+        v<span class="pn">.</span>Subtotal<span class="pn">,</span>
+        v<span class="pn">.</span>IGV<span class="pn">,</span>
+        v<span class="pn">.</span>Total<span class="pn">,</span>
+        p<span class="pn">.</span>NombreProducto
+    <span class="kw">FROM</span>    Ventas          v
+    <span class="kw">JOIN</span>    DetalleVentas   d  <span class="kw">ON</span>  v<span class="pn">.</span>VentaID    <span class="pn">=</span>  d<span class="pn">.</span>VentaID
+    <span class="kw">JOIN</span>    Productos        p  <span class="kw">ON</span>  d<span class="pn">.</span>ProductoID <span class="pn">=</span>  p<span class="pn">.</span>ProductoID
+    <span class="kw">WHERE</span>   v<span class="pn">.</span>ClienteID  <span class="pn">=</span>  <span class="op">@ClienteID</span>
+      <span class="kw">AND</span>   v<span class="pn">.</span>Fecha      <span class="pn">&gt;=</span>  <span class="op">@FechaDesde</span>
+<span class="pn">);</span>
+<span class="kw">GO</span>
+
+
+<span class="cm">-- Uso con CROSS APPLY — combina cada cliente con sus ventas</span>
+<span class="kw">SELECT</span>
+    c<span class="pn">.</span>Nombre<span class="pn">,</span>
+    v<span class="pn">.</span>VentaID<span class="pn">,</span>
+    v<span class="pn">.</span>Fecha<span class="pn">,</span>
+    v<span class="pn">.</span>Total
+<span class="kw">FROM</span>        Clientes       c
+<span class="kw">CROSS APPLY</span> <span class="nm">dbo</span><span class="pn">.</span><span class="fn">fn_VentasPorCliente</span><span class="pn">(</span> c<span class="pn">.</span>ClienteID<span class="pn">,</span>  <span class="st">'2024-01-01'</span> <span class="pn">)</span>  v<span class="pn">;</span>
+<span class="kw">GO</span>
+      </div>
+    </div>
+
+    <!-- Tipo 3: Multi-statement -->
+    <div class="sl">Tipo 3 — Función Multi-sentencia (MSTVf)</div>
+    <p class="sh">Tabla retornada con lógica imperativa (variables, IF, WHILE)</p>
+
+    <div class="codeblock">
+      <div class="cb-bar">
+        <span class="cbd cbd-r"></span><span class="cbd cbd-y"></span><span class="cbd cbd-g"></span>
+        <span class="cb-lang">T-SQL · Multi-Statement TVF (MSTVf)</span>
+      </div>
+      <div class="cb-body">
+<span class="cm">-- ────────────────────────────────────────────────────────────</span>
+<span class="cm">-- MULTI-STATEMENT TVF: construye la tabla con lógica compleja</span>
+<span class="cm">-- Usa @tabla como variable de retorno — luego RETURN</span>
+<span class="cm">-- ────────────────────────────────────────────────────────────</span>
+
+<span class="kw">CREATE OR ALTER FUNCTION</span>  <span class="nm">dbo</span><span class="pn">.</span><span class="fn">fn_EmpleadosJerarquia</span>  <span class="pn">(</span>
+
+    <span class="op">@GerenteID</span>  <span class="tp">INT</span>
+
+<span class="pn">)</span>
+<span class="kw">RETURNS</span>  <span class="op">@Resultado</span>  <span class="kw">TABLE</span>  <span class="pn">(</span>
+
+    EmpleadoID    <span class="tp">INT</span><span class="pn">,</span>
+    Nombre        <span class="tp">VARCHAR</span><span class="pn">(100)</span><span class="pn">,</span>
+    Nivel         <span class="tp">INT</span><span class="pn">,</span>
+    GerenteDirecto <span class="tp">INT</span>
+
+<span class="pn">)</span>
+<span class="kw">AS</span>
+<span class="kw">BEGIN</span>
+
+    <span class="cm">-- Insertar el gerente raíz</span>
+    <span class="kw">INSERT INTO</span>  <span class="op">@Resultado</span>
+    <span class="kw">SELECT</span>  EmpleadoID<span class="pn">,</span>  Nombre<span class="pn">,</span>  <span class="vl">0</span><span class="pn">,</span>  <span class="kw">NULL</span>
+    <span class="kw">FROM</span>    Empleados
+    <span class="kw">WHERE</span>   EmpleadoID  <span class="pn">=</span>  <span class="op">@GerenteID</span><span class="pn">;</span>
+
+    <span class="cm">-- Insertar subordinados directos (nivel 1)</span>
+    <span class="kw">INSERT INTO</span>  <span class="op">@Resultado</span>
+    <span class="kw">SELECT</span>  EmpleadoID<span class="pn">,</span>  Nombre<span class="pn">,</span>  <span class="vl">1</span><span class="pn">,</span>  <span class="op">@GerenteID</span>
+    <span class="kw">FROM</span>    Empleados
+    <span class="kw">WHERE</span>   GerenteID  <span class="pn">=</span>  <span class="op">@GerenteID</span><span class="pn">;</span>
+
+    <span class="kw">RETURN</span><span class="pn">;</span>
+
+<span class="kw">END</span><span class="pn">;</span>
+<span class="kw">GO</span>
+      </div>
+    </div>
+
+    <div class="div"></div>
+
+    <!-- Comparativa -->
+    <div class="sl">Tabla comparativa — los 3 tipos de UDF</div>
+    <p class="sh">¿Cuándo usar cada tipo?</p>
+
+    <div class="tw">
+      <table>
+        <thead>
+          <tr><th>Característica</th><th>Escalar</th><th>Inline TVF</th><th>Multi-stmt TVF</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Retorna</td>
+            <td>Un valor (INT, VARCHAR…)</td>
+            <td>Tabla (sin definir estructura)</td>
+            <td>Tabla (estructura declarada)</td>
+          </tr>
+          <tr>
+            <td>Uso en SELECT</td>
+            <td><span class="badge b-ok">✓ Columna del SELECT</span></td>
+            <td><span class="badge b-ok">✓ FROM / CROSS APPLY</span></td>
+            <td><span class="badge b-ok">✓ FROM / CROSS APPLY</span></td>
+          </tr>
+          <tr>
+            <td>Variables locales</td>
+            <td><span class="badge b-ok">✓ Sí</span></td>
+            <td><span class="badge b-er">✗ No</span></td>
+            <td><span class="badge b-ok">✓ Sí</span></td>
+          </tr>
+          <tr>
+            <td>IF / WHILE</td>
+            <td><span class="badge b-ok">✓ Sí</span></td>
+            <td><span class="badge b-er">✗ No</span></td>
+            <td><span class="badge b-ok">✓ Sí</span></td>
+          </tr>
+          <tr>
+            <td>Rendimiento</td>
+            <td><span class="badge b-wn">⚠ Lento fila a fila</span></td>
+            <td><span class="badge b-ok">✓✓ Muy eficiente</span></td>
+            <td><span class="badge b-wn">⚠ Medio</span></td>
+          </tr>
+          <tr>
+            <td>DML (INSERT/UPDATE/DELETE)</td>
+            <td><span class="badge b-er">✗ No (tablas perm.)</span></td>
+            <td><span class="badge b-er">✗ No</span></td>
+            <td><span class="badge b-er">✗ No</span></td>
+          </tr>
+          <tr>
+            <td>Cuándo usar</td>
+            <td>Cálculos simples en columnas</td>
+            <td>Filtrado parametrizado eficiente</td>
+            <td>Lógica compleja con IF/WHILE</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="sl">Restricciones importantes de las UDF</div>
+    <div class="g2">
+      <div class="ibox neutral">
+        <div class="ibox-h">✗ Lo que NO pueden hacer las UDF</div>
+        <div class="ibox-p">No pueden ejecutar INSERT / UPDATE / DELETE sobre tablas permanentes. No pueden llamar Stored Procedures. No pueden usar funciones no deterministas como GETDATE() o NEWID() en SCHEMABINDING. No pueden acceder a sys.* ni enviar mensajes RAISERROR.</div>
+      </div>
+      <div class="ibox neutral">
+        <div class="ibox-h">✓ Lo que SÍ pueden hacer las UDF</div>
+        <div class="ibox-p">Usar SELECT sobre cualquier tabla. Declarar variables locales (@var). Usar IF / ELSE / WHILE / TRY-CATCH. Modificar tablas temporales tipo variable (@tabla TABLE). Llamar otras funciones escalares o TVF deterministas.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="callout">
+    <div class="callout-ico">⚡</div>
+    <div class="callout-body">
+      <div class="callout-h">Prefiere Inline TVF sobre Escalar cuando trabajes con muchas filas</div>
+      <div class="callout-p">La función escalar se ejecuta fila por fila (N llamadas para N filas). El Inline TVF es expandido por el optimizador de SQL Server como si fuera un JOIN — el motor decide el mejor plan de ejecución automáticamente, sin iteración por fila.</div>
+    </div>
+    <div class="callout-badge">Infografía 2 / 5</div>
+  </div>
+</div>
+
+
+<!-- ╔═══════════════════════════════════════╗
+     ║  PÁGINA 3 — ESQUEMAS                 ║
+     ╚═══════════════════════════════════════╝ -->
+<div class="page" id="p2" style="--ac:#A78BFA">
+
+  <div class="hero">
+    <div class="hbg" style="background:linear-gradient(140deg,#060212 0%,#0C0520 48%,#060210 100%)"></div>
+    <div class="hgrid"></div>
+    <div class="hblob" style="width:560px;height:560px;background:#A78BFA;top:-150px;right:-90px;opacity:.18"></div>
+    <div class="hblob" style="width:280px;height:280px;background:#7C3AED;bottom:-60px;left:300px;opacity:.14"></div>
+    <div class="hnum">03</div>
+
+    <!-- SVG DECO: carpetas anidadas -->
+    <div class="hdeco">
+      <svg width="320" height="260" viewBox="0 0 320 260" fill="none">
+        <rect x="10"  y="10"  width="300" height="220" rx="14" fill="rgba(167,139,250,0.05)" stroke="rgba(167,139,250,0.2)" stroke-width="1.5"/>
+        <text x="24"  y="32"  fill="rgba(167,139,250,0.6)" font-family="Syne" font-size="10" font-weight="700">DATABASE: EmpresaDB</text>
+        <!-- Schema Ventas -->
+        <rect x="26"  y="44"  width="118" height="88" rx="9" fill="rgba(167,139,250,0.08)" stroke="rgba(167,139,250,0.35)" stroke-width="1.2"/>
+        <text x="38"  y="62"  fill="#A78BFA" font-family="Syne" font-size="8.5" font-weight="700">SCHEMA: Ventas</text>
+        <rect x="36"  y="68"  width="100" height="16" rx="4" fill="rgba(255,255,255,0.06)"/>
+        <text x="44"  y="80"  fill="rgba(255,255,255,0.5)" font-family="JetBrains Mono" font-size="7.5">📋 Ventas.Pedidos</text>
+        <rect x="36"  y="88"  width="100" height="16" rx="4" fill="rgba(255,255,255,0.04)"/>
+        <text x="44"  y="100" fill="rgba(255,255,255,0.45)" font-family="JetBrains Mono" font-size="7.5">📋 Ventas.Clientes</text>
+        <rect x="36"  y="108" width="100" height="16" rx="4" fill="rgba(255,255,255,0.04)"/>
+        <text x="44"  y="120" fill="rgba(255,255,255,0.4)" font-family="JetBrains Mono" font-size="7.5">⚙ Ventas.fn_Total</text>
+        <!-- Schema RRHH -->
+        <rect x="160" y="44"  width="118" height="88" rx="9" fill="rgba(167,139,250,0.06)" stroke="rgba(167,139,250,0.25)" stroke-width="1.2"/>
+        <text x="172" y="62"  fill="#A78BFA" font-family="Syne" font-size="8.5" font-weight="700">SCHEMA: RRHH</text>
+        <rect x="170" y="68"  width="100" height="16" rx="4" fill="rgba(255,255,255,0.06)"/>
+        <text x="178" y="80"  fill="rgba(255,255,255,0.5)" font-family="JetBrains Mono" font-size="7.5">📋 RRHH.Empleados</text>
+        <rect x="170" y="88"  width="100" height="16" rx="4" fill="rgba(255,255,255,0.04)"/>
+        <text x="178" y="100" fill="rgba(255,255,255,0.45)" font-family="JetBrains Mono" font-size="7.5">📋 RRHH.Cargos</text>
+        <rect x="170" y="108" width="100" height="16" rx="4" fill="rgba(255,255,255,0.04)"/>
+        <text x="178" y="120" fill="rgba(255,255,255,0.4)" font-family="JetBrains Mono" font-size="7.5">📋 RRHH.Contratos</text>
+        <!-- Schema dbo -->
+        <rect x="26"  y="148" width="118" height="70" rx="9" fill="rgba(167,139,250,0.06)" stroke="rgba(167,139,250,0.22)" stroke-width="1.2"/>
+        <text x="38"  y="166" fill="#A78BFA" font-family="Syne" font-size="8.5" font-weight="700">SCHEMA: dbo</text>
+        <rect x="36"  y="172" width="100" height="16" rx="4" fill="rgba(255,255,255,0.04)"/>
+        <text x="44"  y="184" fill="rgba(255,255,255,0.45)" font-family="JetBrains Mono" font-size="7.5">📋 dbo.Configuracion</text>
+        <rect x="36"  y="192" width="100" height="16" rx="4" fill="rgba(255,255,255,0.04)"/>
+        <text x="44"  y="204" fill="rgba(255,255,255,0.4)" font-family="JetBrains Mono" font-size="7.5">📋 dbo.Auditoria</text>
+        <!-- Schema Finanzas -->
+        <rect x="160" y="148" width="118" height="70" rx="9" fill="rgba(167,139,250,0.06)" stroke="rgba(167,139,250,0.22)" stroke-width="1.2"/>
+        <text x="172" y="166" fill="#A78BFA" font-family="Syne" font-size="8.5" font-weight="700">SCHEMA: Finanzas</text>
+        <rect x="170" y="172" width="100" height="16" rx="4" fill="rgba(255,255,255,0.04)"/>
+        <text x="178" y="184" fill="rgba(255,255,255,0.45)" font-family="JetBrains Mono" font-size="7.5">📋 Finanzas.Cuentas</text>
+        <rect x="170" y="192" width="100" height="16" rx="4" fill="rgba(255,255,255,0.04)"/>
+        <text x="178" y="204" fill="rgba(255,255,255,0.4)" font-family="JetBrains Mono" font-size="7.5">📋 Finanzas.Pagos</text>
+        <!-- DB border bottom label -->
+        <text x="100" y="244" fill="rgba(167,139,250,0.4)" font-family="Syne" font-size="9" font-weight="700">4 ESQUEMAS · 1 BASE DE DATOS</text>
+      </svg>
+    </div>
+
+    <div class="htag">SQL Server · Semana 09 · Base de Datos II · Infografía 3/5</div>
+    <h1 class="htitle">ESQUEMAS<br><em>Schemas</em></h1>
+    <p class="hsub">Un esquema es un <strong>contenedor lógico de objetos</strong> dentro de una base de datos. Agrupa tablas, vistas, procedimientos y funciones bajo un namespace común, facilitando la organización, la gestión de permisos y la separación de módulos de negocio.</p>
+    <div class="hchips">
+      <span class="hchip">dbo — esquema por defecto</span>
+      <span class="hchip">Namespace lógico</span>
+      <span class="hchip">Permisos por schema</span>
+      <span class="hchip">Evita colisiones de nombres</span>
+    </div>
+  </div>
+
+  <div class="wrap">
+
+    <div class="statbar">
+      <div class="stat"><div class="stat-n">dbo</div><div class="stat-l">Esquema por defecto en SQL Server</div></div>
+      <div class="stat"><div class="stat-n">N</div><div class="stat-l">Schemas por base de datos</div></div>
+      <div class="stat"><div class="stat-n">✓</div><div class="stat-l">GRANT aplica a todos sus objetos</div></div>
+      <div class="stat"><div class="stat-n">✓</div><div class="stat-l">Evita colisiones entre módulos</div></div>
+      <div class="stat"><div class="stat-n">ALTER</div><div class="stat-l">SCHEMA TRANSFER — mover objetos</div></div>
+    </div>
+
+    <div class="sl">Sintaxis completa</div>
+    <p class="sh">Crear, usar, asignar permisos y mover objetos entre esquemas</p>
+
+    <div class="codeblock">
+      <div class="cb-bar">
+        <span class="cbd cbd-r"></span><span class="cbd cbd-y"></span><span class="cbd cbd-g"></span>
+        <span class="cb-lang">T-SQL · Schemas · SQL Server 2019+</span>
+      </div>
+      <div class="cb-body">
+<span class="cm">-- ────────────────────────────────────────────────────────────</span>
+<span class="cm">-- 1. CREAR ESQUEMAS (se crean antes que sus objetos)</span>
+<span class="cm">-- ────────────────────────────────────────────────────────────</span>
+
+<span class="kw">CREATE SCHEMA</span>  Ventas    <span class="kw">AUTHORIZATION</span>  <span class="nm">dbo</span><span class="pn">;</span>
+<span class="kw">GO</span>
+
+<span class="kw">CREATE SCHEMA</span>  RRHH      <span class="kw">AUTHORIZATION</span>  <span class="nm">dbo</span><span class="pn">;</span>
+<span class="kw">GO</span>
+
+<span class="kw">CREATE SCHEMA</span>  Finanzas  <span class="kw">AUTHORIZATION</span>  <span class="nm">dbo</span><span class="pn">;</span>
+<span class="kw">GO</span>
+
+<span class="kw">CREATE SCHEMA</span>  Auditoria <span class="kw">AUTHORIZATION</span>  <span class="nm">dbo</span><span class="pn">;</span>
+<span class="kw">GO</span>
+
+
+<span class="cm">-- ────────────────────────────────────────────────────────────</span>
+<span class="cm">-- 2. CREAR TABLA DENTRO DE UN ESQUEMA</span>
+<span class="cm">--    Formato: Schema.Tabla (siempre especificar schema)</span>
+<span class="cm">-- ────────────────────────────────────────────────────────────</span>
+
+<span class="kw">CREATE TABLE</span>  Ventas<span class="pn">.</span>Pedidos  <span class="pn">(</span>
+
+    PedidoID    <span class="tp">INT</span>           <span class="kw">IDENTITY</span><span class="pn">(1,1)</span>  <span class="kw">PRIMARY KEY</span><span class="pn">,</span>
+    ClienteID   <span class="tp">INT</span>           <span class="kw">NOT NULL</span><span class="pn">,</span>
+    Fecha       <span class="tp">DATE</span>          <span class="kw">NOT NULL  DEFAULT</span>  <span class="fn">GETDATE</span><span class="pn">(),</span>
+    Total       <span class="tp">DECIMAL</span><span class="pn">(10,2)</span> <span class="kw">NOT NULL</span>
+
+<span class="pn">);</span>
+<span class="kw">GO</span>
+
+
+<span class="cm">-- ────────────────────────────────────────────────────────────</span>
+<span class="cm">-- 3. GESTIÓN DE PERMISOS A NIVEL DE SCHEMA</span>
+<span class="cm">--    Un GRANT sobre el schema aplica a TODOS sus objetos</span>
+<span class="cm">-- ────────────────────────────────────────────────────────────</span>
+
+<span class="cm">-- Analista de ventas: solo lectura en módulo Ventas</span>
+<span class="kw">GRANT</span>   <span class="st">SELECT</span>          <span class="kw">ON SCHEMA</span><span class="pn">::</span>Ventas    <span class="kw">TO</span>  AnalstaVentas<span class="pn">;</span>
+
+<span class="cm">-- RRHH bloqueado para usuarios externos</span>
+<span class="kw">DENY</span>    <span class="st">SELECT</span>          <span class="kw">ON SCHEMA</span><span class="pn">::</span>RRHH      <span class="kw">TO</span>  UsuarioExterno<span class="pn">;</span>
+
+<span class="cm">-- Acceso completo DML para el sistema de ventas</span>
+<span class="kw">GRANT</span>   <span class="st">INSERT</span><span class="pn">,</span>  <span class="st">UPDATE</span>  <span class="kw">ON SCHEMA</span><span class="pn">::</span>Ventas    <span class="kw">TO</span>  AppVentas<span class="pn">;</span>
+<span class="kw">GO</span>
+
+
+<span class="cm">-- ────────────────────────────────────────────────────────────</span>
+<span class="cm">-- 4. MOVER UN OBJETO DE UN SCHEMA A OTRO</span>
+<span class="cm">--    No copia los datos: solo cambia el namespace</span>
+<span class="cm">-- ────────────────────────────────────────────────────────────</span>
+
+<span class="cm">-- Mover tabla Empleados de dbo hacia RRHH</span>
+<span class="kw">ALTER SCHEMA</span>  RRHH  <span class="kw">TRANSFER</span>  <span class="nm">dbo</span><span class="pn">.</span>Empleados<span class="pn">;</span>
+<span class="kw">GO</span>
+
+<span class="cm">-- Mover un procedimiento almacenado</span>
+<span class="kw">ALTER SCHEMA</span>  Ventas  <span class="kw">TRANSFER</span>  <span class="nm">dbo</span><span class="pn">.</span>usp_RegistrarPedido<span class="pn">;</span>
+<span class="kw">GO</span>
+
+
+<span class="cm">-- ────────────────────────────────────────────────────────────</span>
+<span class="cm">-- 5. CONSULTAR SCHEMAS EXISTENTES Y SUS OBJETOS</span>
+<span class="cm">-- ────────────────────────────────────────────────────────────</span>
+
+<span class="kw">SELECT</span>  schema_name<span class="pn">,</span>  schema_owner
+<span class="kw">FROM</span>    <span class="nm">INFORMATION_SCHEMA</span><span class="pn">.</span>SCHEMATA<span class="pn">;</span>
+
+<span class="kw">SELECT</span>  s<span class="pn">.</span>name  <span class="kw">AS</span>  Esquema<span class="pn">,</span>  o<span class="pn">.</span>name  <span class="kw">AS</span>  Objeto<span class="pn">,</span>  o<span class="pn">.</span>type_desc
+<span class="kw">FROM</span>    sys<span class="pn">.</span>objects  o
+<span class="kw">JOIN</span>    sys<span class="pn">.</span>schemas  s  <span class="kw">ON</span>  o<span class="pn">.</span>schema_id  <span class="pn">=</span>  s<span class="pn">.</span>schema_id
+<span class="kw">ORDER BY</span>  s<span class="pn">.</span>name<span class="pn">,</span>  o<span class="pn">.</span>name<span class="pn">;</span>
+      </div>
+    </div>
+
+    <div class="div"></div>
+
+    <!-- Schemas vs Databases -->
+    <div class="sl">Comparativa clave</div>
+    <p class="sh">Schema vs. Base de Datos — ¿cuándo usar cada uno?</p>
+
+    <div class="vs-wrap">
+      <div class="vs-col">
+        <div class="vs-col-h">🗂️ Schema (Esquema)</div>
+        <div class="vs-item"><div class="vsdot"></div>División lógica dentro de una sola BD</div>
+        <div class="vs-item"><div class="vsdot"></div>Comparten el mismo motor de transacciones</div>
+        <div class="vs-item"><div class="vsdot"></div>JOIN entre schemas sin configuración extra</div>
+        <div class="vs-item"><div class="vsdot"></div>Un GRANT sobre schema aplica a todos sus objetos</div>
+        <div class="vs-item"><div class="vsdot"></div>Sin costo adicional de recursos del servidor</div>
+        <div class="vs-item"><div class="vsdot"></div>Ideal: módulos de negocio (Ventas, RRHH, Finanzas)</div>
+      </div>
+      <div class="vs-mid">VS</div>
+      <div class="vs-col">
+        <div class="vs-col-h">🗄️ Base de Datos</div>
+        <div class="vs-item"><div class="vsdot"></div>Entorno completamente aislado y autónomo</div>
+        <div class="vs-item"><div class="vsdot"></div>Archivos MDF y LDF propios en disco</div>
+        <div class="vs-item"><div class="vsdot"></div>JOIN requiere linked server o nombre completo DB.schema.tabla</div>
+        <div class="vs-item"><div class="vsdot"></div>Permisos completamente independientes</div>
+        <div class="vs-item"><div class="vsdot"></div>Mayor overhead de administración y backup</div>
+        <div class="vs-item"><div class="vsdot"></div>Ideal: sistemas totalmente separados (ERP, CRM, BI)</div>
+      </div>
+    </div>
+
+    <div class="sl">Ventajas en producción</div>
+    <div class="g2">
+      <div class="ibox neutral">
+        <div class="ibox-h">🏢 Organización por módulo de negocio</div>
+        <div class="ibox-p">Ventas.Pedidos, RRHH.Empleados, Finanzas.CuentasPagar. En lugar de 50 tablas todas en dbo, cada área tiene su espacio limpio. Los desarrolladores saben exactamente dónde está cada objeto.</div>
+      </div>
+      <div class="ibox neutral">
+        <div class="ibox-h">🔐 Seguridad simplificada</div>
+        <div class="ibox-p">GRANT SELECT ON SCHEMA::Ventas TO AnalstaVentas otorga acceso a TODAS las tablas, vistas y funciones del schema Ventas en una sola línea, sin necesidad de hacer GRANT objeto por objeto.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="callout">
+    <div class="callout-ico">🗂️</div>
+    <div class="callout-body">
+      <div class="callout-h">Usa schemas para separar módulos: Ventas, RRHH, Compras, Finanzas</div>
+      <div class="callout-p">Un permiso GRANT en el schema se propaga automáticamente a todos sus objetos presentes y futuros. Esto reduce el trabajo de administración y asegura que ningún objeto nuevo quede sin permisos accidentalmente.</div>
+    </div>
+    <div class="callout-badge">Infografía 3 / 5</div>
+  </div>
+</div>
+
+
+<!-- ╔═══════════════════════════════════════╗
+     ║  PÁGINA 4 — ÍNDICES                  ║
+     ╚═══════════════════════════════════════╝ -->
+<div class="page" id="p3" style="--ac:#38BDF8">
+
+  <div class="hero">
+    <div class="hbg" style="background:linear-gradient(140deg,#010912 0%,#031524 48%,#010912 100%)"></div>
+    <div class="hgrid"></div>
+    <div class="hblob" style="width:560px;height:560px;background:#38BDF8;top:-150px;right:-90px;opacity:.18"></div>
+    <div class="hblob" style="width:280px;height:280px;background:#0284C7;bottom:-60px;left:300px;opacity:.15"></div>
+    <div class="hnum">04</div>
+
+    <!-- SVG DECO: árbol B-Tree -->
+    <div class="hdeco">
+      <svg width="320" height="280" viewBox="0 0 320 280" fill="none">
+        <!-- Root node -->
+        <rect x="122" y="14" width="76" height="32" rx="7" fill="rgba(56,189,248,0.18)" stroke="#38BDF8" stroke-width="1.8"/>
+        <text x="145" y="35" fill="#fff" font-family="JetBrains Mono" font-size="12" font-weight="600">50</text>
+        <!-- Level 2 -->
+        <rect x="52"  y="82"  width="64" height="28" rx="6" fill="rgba(56,189,248,0.12)" stroke="rgba(56,189,248,0.55)" stroke-width="1.4"/>
+        <text x="72"  y="101" fill="#fff" font-family="JetBrains Mono" font-size="11">25</text>
+        <rect x="204" y="82"  width="64" height="28" rx="6" fill="rgba(56,189,248,0.12)" stroke="rgba(56,189,248,0.55)" stroke-width="1.4"/>
+        <text x="224" y="101" fill="#fff" font-family="JetBrains Mono" font-size="11">75</text>
+        <!-- Level 3 -->
+        <rect x="12"  y="150" width="54" height="24" rx="5" fill="rgba(56,189,248,0.08)" stroke="rgba(56,189,248,0.35)" stroke-width="1.2"/>
+        <text x="28"  y="166" fill="rgba(255,255,255,0.75)" font-family="JetBrains Mono" font-size="10">12</text>
+        <rect x="82"  y="150" width="54" height="24" rx="5" fill="rgba(56,189,248,0.08)" stroke="rgba(56,189,248,0.35)" stroke-width="1.2"/>
+        <text x="98"  y="166" fill="rgba(255,255,255,0.75)" font-family="JetBrains Mono" font-size="10">37</text>
+        <rect x="164" y="150" width="54" height="24" rx="5" fill="rgba(56,189,248,0.08)" stroke="rgba(56,189,248,0.35)" stroke-width="1.2"/>
+        <text x="180" y="166" fill="rgba(255,255,255,0.75)" font-family="JetBrains Mono" font-size="10">62</text>
+        <rect x="254" y="150" width="54" height="24" rx="5" fill="rgba(56,189,248,0.08)" stroke="rgba(56,189,248,0.35)" stroke-width="1.2"/>
+        <text x="270" y="166" fill="rgba(255,255,255,0.75)" font-family="JetBrains Mono" font-size="10">88</text>
+        <!-- Connecting lines -->
+        <line x1="160" y1="46"  x2="84"  y2="82"  stroke="rgba(56,189,248,0.45)" stroke-width="1.4"/>
+        <line x1="160" y1="46"  x2="236" y2="82"  stroke="rgba(56,189,248,0.45)" stroke-width="1.4"/>
+        <line x1="84"  y1="110" x2="39"  y2="150" stroke="rgba(56,189,248,0.3)"  stroke-width="1.2"/>
+        <line x1="84"  y1="110" x2="109" y2="150" stroke="rgba(56,189,248,0.3)"  stroke-width="1.2"/>
+        <line x1="236" y1="110" x2="191" y2="150" stroke="rgba(56,189,248,0.3)"  stroke-width="1.2"/>
+        <line x1="236" y1="110" x2="281" y2="150" stroke="rgba(56,189,248,0.3)"  stroke-width="1.2"/>
+        <!-- Leaf level label -->
+        <text x="38"  y="210" fill="rgba(56,189,248,0.45)" font-family="Syne" font-size="8.5" font-weight="700">HOJA</text>
+        <text x="108" y="210" fill="rgba(56,189,248,0.45)" font-family="Syne" font-size="8.5" font-weight="700">HOJA</text>
+        <text x="188" y="210" fill="rgba(56,189,248,0.45)" font-family="Syne" font-size="8.5" font-weight="700">HOJA</text>
+        <text x="268" y="210" fill="rgba(56,189,248,0.45)" font-family="Syne" font-size="8.5" font-weight="700">HOJA</text>
+        <!-- Labels left -->
+        <text x="70"  y="18"  fill="rgba(56,189,248,0.55)" font-family="Syne" font-size="9" font-weight="700">RAÍZ</text>
+        <text x="4"   y="88"  fill="rgba(56,189,248,0.45)" font-family="Syne" font-size="9" font-weight="700">NODO</text>
+        <text x="78"  y="240" fill="rgba(56,189,248,0.35)" font-family="Syne" font-size="9" font-weight="600">B-Tree — O(log n)</text>
+      </svg>
+    </div>
+
+    <div class="htag">SQL Server · Semana 09 · Base de Datos II · Infografía 4/5</div>
+    <h1 class="htitle">ÍNDICES<br><em>Indexes</em></h1>
+    <p class="hsub">Un índice es una <strong>estructura B-Tree en disco</strong> que permite a SQL Server localizar filas sin escanear la tabla completa. Reduce la complejidad de búsqueda de O(n) a O(log n), acelerando dramáticamente las consultas SELECT en tablas con millones de filas.</p>
+    <div class="hchips">
+      <span class="hchip">Estructura B-Tree</span>
+      <span class="hchip">O(log n)</span>
+      <span class="hchip">Clustered vs Non-Clustered</span>
+      <span class="hchip">Unique · Filtered · Columnstore</span>
+    </div>
+  </div>
+
+  <div class="wrap">
+
+    <div class="statbar">
+      <div class="stat"><div class="stat-n">O(log n)</div><div class="stat-l">Complejidad de búsqueda con índice</div></div>
+      <div class="stat"><div class="stat-n">1</div><div class="stat-l">Índice Clustered por tabla</div></div>
+      <div class="stat"><div class="stat-n">999</div><div class="stat-l">Índices Non-Clustered máx. por tabla</div></div>
+      <div class="stat"><div class="stat-n">↑ SELECT</div><div class="stat-l">Acelera lecturas</div></div>
+      <div class="stat"><div class="stat-n">↓ DML</div><div class="stat-l">Ralentiza escrituras (mantiene el árbol)</div></div>
+    </div>
+
+    <div class="sl">Sintaxis completa</div>
+    <p class="sh">Tipos de índices y cómo crearlos en SQL Server</p>
+
+    <div class="codeblock">
+      <div class="cb-bar">
+        <span class="cbd cbd-r"></span><span class="cbd cbd-y"></span><span class="cbd cbd-g"></span>
+        <span class="cb-lang">T-SQL · Indexes · SQL Server 2019+</span>
+      </div>
+      <div class="cb-body">
+<span class="cm">-- ────────────────────────────────────────────────────────────</span>
+<span class="cm">-- ÍNDICE CLUSTERED</span>
+<span class="cm">-- Ordena físicamente los datos de la tabla en disco</span>
+<span class="cm">-- Solo puede haber UNO por tabla (la tabla IS el índice)</span>
+<span class="cm">-- El PRIMARY KEY lo crea automáticamente (salvo override)</span>
+<span class="cm">-- ────────────────────────────────────────────────────────────</span>
+
+<span class="kw">CREATE CLUSTERED INDEX</span>  <span class="fn">IX_Empleados_ID</span>
+    <span class="kw">ON</span>  Empleados  <span class="pn">(</span>  EmpleadoID  <span class="kw">ASC</span>  <span class="pn">);</span>
+<span class="kw">GO</span>
+
+
+<span class="cm">-- ────────────────────────────────────────────────────────────</span>
+<span class="cm">-- ÍNDICE NON-CLUSTERED (el más común)</span>
+<span class="cm">-- Estructura separada con puntero a la fila real</span>
+<span class="cm">-- Múltiples por tabla — ideal para columnas en WHERE / JOIN</span>
+<span class="cm">-- INCLUDE agrega columnas "cubiertas" sin ser clave del índice</span>
+<span class="cm">-- ────────────────────────────────────────────────────────────</span>
+
+<span class="kw">CREATE NONCLUSTERED INDEX</span>  <span class="fn">IX_Empleados_Apellido</span>
+    <span class="kw">ON</span>  Empleados  <span class="pn">(</span>  ApellidoPaterno  <span class="kw">ASC</span><span class="pn">,</span>  Nombres  <span class="kw">ASC</span>  <span class="pn">)</span>
+    <span class="kw">INCLUDE</span>  <span class="pn">(</span>  Salario<span class="pn">,</span>  DepID<span class="pn">,</span>  Estado  <span class="pn">);</span>   <span class="cm">-- columnas cubiertas</span>
+<span class="kw">GO</span>
+
+
+<span class="cm">-- ────────────────────────────────────────────────────────────</span>
+<span class="cm">-- ÍNDICE ÚNICO — también aplica constraint de unicidad</span>
+<span class="cm">-- ────────────────────────────────────────────────────────────</span>
+
+<span class="kw">CREATE UNIQUE NONCLUSTERED INDEX</span>  <span class="fn">IX_Empleados_Email</span>
+    <span class="kw">ON</span>  Empleados  <span class="pn">(</span>  Email  <span class="pn">)</span>
+    <span class="kw">WHERE</span>  Email  <span class="kw">IS NOT NULL</span><span class="pn">;</span>          <span class="cm">-- FILTERED: solo filas con email</span>
+<span class="kw">GO</span>
+
+
+<span class="cm">-- ────────────────────────────────────────────────────────────</span>
+<span class="cm">-- ÍNDICE FILTRADO (Filtered Index) — subconjunto de filas</span>
+<span class="cm">-- Más pequeño, más rápido, consume menos espacio</span>
+<span class="cm">-- ────────────────────────────────────────────────────────────</span>
+
+<span class="kw">CREATE NONCLUSTERED INDEX</span>  <span class="fn">IX_Pedidos_Pendientes</span>
+    <span class="kw">ON</span>  Pedidos  <span class="pn">(</span>  FechaPedido<span class="pn">,</span>  ClienteID  <span class="pn">)</span>
+    <span class="kw">WHERE</span>  Estado  <span class="pn">=</span>  <span class="st">'Pendiente'</span><span class="pn">;</span>       <span class="cm">-- solo pedidos pendientes</span>
+<span class="kw">GO</span>
+
+
+<span class="cm">-- ────────────────────────────────────────────────────────────</span>
+<span class="cm">-- MANTENIMIENTO DE ÍNDICES</span>
+<span class="cm">-- Ver fragmentación (>30% REBUILD, 5-30% REORGANIZE)</span>
+<span class="cm">-- ────────────────────────────────────────────────────────────</span>
+
+<span class="kw">SELECT</span>
+    <span class="nm">OBJECT_NAME</span><span class="pn">(</span>ips<span class="pn">.</span>object_id<span class="pn">)</span>   <span class="kw">AS</span>  Tabla<span class="pn">,</span>
+    i<span class="pn">.</span>name                         <span class="kw">AS</span>  Indice<span class="pn">,</span>
+    ips<span class="pn">.</span>avg_fragmentation_in_percent <span class="kw">AS</span>  Fragmentacion
+<span class="kw">FROM</span>    <span class="nm">sys</span><span class="pn">.</span><span class="fn">dm_db_index_physical_stats</span>
+        <span class="pn">(</span><span class="fn">DB_ID</span><span class="pn">(),</span>  <span class="kw">NULL</span><span class="pn">,</span>  <span class="kw">NULL</span><span class="pn">,</span>  <span class="kw">NULL</span><span class="pn">,</span>  <span class="st">'LIMITED'</span><span class="pn">)</span>   ips
+<span class="kw">JOIN</span>    <span class="nm">sys</span><span class="pn">.</span>indexes  i
+        <span class="kw">ON</span>  ips<span class="pn">.</span>object_id  <span class="pn">=</span>  i<span class="pn">.</span>object_id
+        <span class="kw">AND</span> ips<span class="pn">.</span>index_id   <span class="pn">=</span>  i<span class="pn">.</span>index_id
+<span class="kw">WHERE</span>   ips<span class="pn">.</span>avg_fragmentation_in_percent  <span class="pn">&gt;</span>  <span class="vl">5</span>
+<span class="kw">ORDER BY</span>  ips<span class="pn">.</span>avg_fragmentation_in_percent  <span class="kw">DESC</span><span class="pn">;</span>
+<span class="kw">GO</span>
+
+
+<span class="cm">-- Reconstruir un índice (fragmentación > 30%)</span>
+<span class="kw">ALTER INDEX</span>  <span class="fn">IX_Empleados_Apellido</span>  <span class="kw">ON</span>  Empleados  <span class="kw">REBUILD</span><span class="pn">;</span>
+
+<span class="cm">-- Reorganizar un índice (fragmentación 5%–30%)</span>
+<span class="kw">ALTER INDEX</span>  <span class="kw">ALL</span>                    <span class="kw">ON</span>  Empleados  <span class="kw">REORGANIZE</span><span class="pn">;</span>
+<span class="kw">GO</span>
+      </div>
+    </div>
+
+    <div class="div"></div>
+
+    <!-- Clustered vs Non-Clustered -->
+    <div class="sl">Comparativa fundamental</div>
+    <p class="sh">Clustered vs. Non-Clustered — diferencias clave</p>
+
+    <div class="vs-wrap">
+      <div class="vs-col">
+        <div class="vs-col-h">🏗️ Clustered Index</div>
+        <div class="vs-item"><div class="vsdot"></div>Solo 1 por tabla — el PK lo crea automáticamente</div>
+        <div class="vs-item"><div class="vsdot"></div>Ordena físicamente los datos de la tabla en disco</div>
+        <div class="vs-item"><div class="vsdot"></div>Las páginas de datos y las hojas del índice son lo mismo</div>
+        <div class="vs-item"><div class="vsdot"></div>Búsquedas por rango (BETWEEN, >, <) muy eficientes</div>
+        <div class="vs-item"><div class="vsdot"></div>Elegir columna con inserciones secuenciales (IDENTITY)</div>
+      </div>
+      <div class="vs-mid">VS</div>
+      <div class="vs-col">
+        <div class="vs-col-h">📑 Non-Clustered Index</div>
+        <div class="vs-item"><div class="vsdot"></div>Hasta 999 por tabla — múltiples columnas</div>
+        <div class="vs-item"><div class="vsdot"></div>Estructura separada: hoja contiene puntero a la fila real</div>
+        <div class="vs-item"><div class="vsdot"></div>Puede incluir columnas adicionales con INCLUDE (covering)</div>
+        <div class="vs-item"><div class="vsdot"></div>Ideal para columnas frecuentes en WHERE, JOIN, ORDER BY</div>
+        <div class="vs-item"><div class="vsdot"></div>Filtered index: subconjunto de filas — más pequeño y rápido</div>
+      </div>
+    </div>
+
+    <!-- Cuándo usar -->
+    <div class="sl">Guía de decisión</div>
+    <p class="sh">¿Cuándo crear un índice?</p>
+
+    <div class="g4">
+      <div class="card hl">
+        <div class="card-ico">🔎</div>
+        <div class="card-h ac">WHERE frecuente</div>
+        <div class="card-p">Columnas que aparecen constantemente en WHERE o HAVING con alta cardinalidad (muchos valores distintos).</div>
+      </div>
+      <div class="card">
+        <div class="card-ico">🔗</div>
+        <div class="card-h">Columnas JOIN</div>
+        <div class="card-p">Las columnas usadas en ON para unir tablas grandes. Evitan que SQL Server escanee toda la tabla al hacer el JOIN.</div>
+      </div>
+      <div class="card">
+        <div class="card-ico">📊</div>
+        <div class="card-h">ORDER BY / GROUP BY</div>
+        <div class="card-p">Evita operaciones de ordenamiento costosas en memoria (Sort operator en el plan de ejecución).</div>
+      </div>
+      <div class="card">
+        <div class="card-ico">⚠️</div>
+        <div class="card-h">Cuándo NO usar</div>
+        <div class="card-p">Tablas pequeñas, columnas con poca selectividad (Género: M/F), tablas con inserciones masivas continuas.</div>
+      </div>
+    </div>
+
+    <!-- Fragmentación -->
+    <div class="sl">Mantenimiento — Fragmentación de índices</div>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Fragmentación</th><th>Causa</th><th>Acción recomendada</th><th>Comando</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="badge b-ok">&lt; 5%</span></td>
+            <td>Normal — páginas bien ordenadas</td>
+            <td>Ninguna acción necesaria</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td><span class="badge b-wn">5% – 30%</span></td>
+            <td>Inserciones/eliminaciones frecuentes</td>
+            <td>REORGANIZE (en línea, sin bloqueo)</td>
+            <td><span class="badge">ALTER INDEX … REORGANIZE</span></td>
+          </tr>
+          <tr>
+            <td><span class="badge b-er">&gt; 30%</span></td>
+            <td>Alta fragmentación — búsquedas lentas</td>
+            <td>REBUILD (reconstruye el árbol completo)</td>
+            <td><span class="badge">ALTER INDEX … REBUILD</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <div class="callout">
+    <div class="callout-ico">📊</div>
+    <div class="callout-body">
+      <div class="callout-h">Los índices aceleran SELECT pero ralentizan INSERT / UPDATE / DELETE</div>
+      <div class="callout-p">Cada vez que se modifica una fila, SQL Server debe actualizar también todos los índices de esa tabla. Monitorea la fragmentación con sys.dm_db_index_physical_stats y reconstruye cuando supere el 30%. Nunca crees índices "por si acaso" — analiza el Query Execution Plan primero.</div>
+    </div>
+    <div class="callout-badge">Infografía 4 / 5</div>
+  </div>
+</div>
+
+
+<!-- ╔═══════════════════════════════════════╗
+     ║  PÁGINA 5 — STORED PROCEDURES        ║
+     ╚═══════════════════════════════════════╝ -->
+<div class="page" id="p4" style="--ac:#FB7185">
+
+  <div class="hero">
+    <div class="hbg" style="background:linear-gradient(140deg,#10010A 0%,#1C0211 48%,#0A010A 100%)"></div>
+    <div class="hgrid"></div>
+    <div class="hblob" style="width:560px;height:560px;background:#FB7185;top:-150px;right:-90px;opacity:.18"></div>
+    <div class="hblob" style="width:280px;height:280px;background:#E11D48;bottom:-60px;left:300px;opacity:.14"></div>
+    <div class="hnum">05</div>
+
+    <!-- SVG DECO: caja negra con parámetros -->
+    <div class="hdeco">
+      <svg width="320" height="270" viewBox="0 0 320 270" fill="none">
+        <!-- Black box -->
+        <rect x="90" y="80" width="140" height="100" rx="12" fill="rgba(251,113,133,0.1)" stroke="rgba(251,113,133,0.4)" stroke-width="1.8"/>
+        <text x="128" y="118" fill="#FB7185" font-family="Syne" font-size="11" font-weight="800">usp_</text>
+        <text x="118" y="138" fill="#FB7185" font-family="Syne" font-size="11" font-weight="800">Procedure</text>
+        <text x="120" y="158" fill="rgba(251,113,133,0.55)" font-family="JetBrains Mono" font-size="8.5">EXEC · DML · TRAN</text>
+        <!-- Input arrows -->
+        <line x1="10"  y1="110" x2="88"  y2="110" stroke="rgba(251,113,133,0.55)" stroke-width="1.8"/>
+        <polygon points="88,104 98,110 88,116" fill="rgba(251,113,133,0.55)"/>
+        <text x="12" y="102" fill="rgba(251,113,133,0.55)" font-family="JetBrains Mono" font-size="9">@Param1 IN</text>
+        <line x1="10"  y1="150" x2="88"  y2="150" stroke="rgba(251,113,133,0.4)"  stroke-width="1.5"/>
+        <polygon points="88,144 98,150 88,156" fill="rgba(251,113,133,0.4)"/>
+        <text x="12" y="142" fill="rgba(251,113,133,0.4)" font-family="JetBrains Mono" font-size="9">@Param2 IN</text>
+        <!-- Output arrows -->
+        <line x1="230" y1="110" x2="308" y2="110" stroke="rgba(251,113,133,0.55)" stroke-width="1.8"/>
+        <polygon points="308,104 320,110 308,116" fill="rgba(251,113,133,0.55)"/>
+        <text x="233" y="102" fill="rgba(251,113,133,0.55)" font-family="JetBrains Mono" font-size="9">@Out OUTPUT</text>
+        <line x1="230" y1="150" x2="308" y2="150" stroke="rgba(251,113,133,0.4)"  stroke-width="1.5"/>
+        <polygon points="308,144 320,150 308,156" fill="rgba(251,113,133,0.4)"/>
+        <text x="233" y="142" fill="rgba(251,113,133,0.4)" font-family="JetBrains Mono" font-size="9">Result SET</text>
+        <!-- Internal flow chips -->
+        <rect x="100" y="172" width="50" height="18" rx="5" fill="rgba(251,113,133,0.12)" stroke="rgba(251,113,133,0.3)" stroke-width="1"/>
+        <text x="108" y="184" fill="rgba(251,113,133,0.7)" font-family="JetBrains Mono" font-size="7.5">BEGIN TRY</text>
+        <rect x="160" y="172" width="60" height="18" rx="5" fill="rgba(251,113,133,0.12)" stroke="rgba(251,113,133,0.3)" stroke-width="1"/>
+        <text x="167" y="184" fill="rgba(251,113,133,0.7)" font-family="JetBrains Mono" font-size="7.5">ROLLBACK</text>
+        <rect x="100" y="196" width="50" height="18" rx="5" fill="rgba(251,113,133,0.08)" stroke="rgba(251,113,133,0.2)" stroke-width="1"/>
+        <text x="108" y="208" fill="rgba(251,113,133,0.55)" font-family="JetBrains Mono" font-size="7.5">COMMIT</text>
+        <rect x="160" y="196" width="60" height="18" rx="5" fill="rgba(251,113,133,0.08)" stroke="rgba(251,113,133,0.2)" stroke-width="1"/>
+        <text x="168" y="208" fill="rgba(251,113,133,0.55)" font-family="JetBrains Mono" font-size="7.5">END CATCH</text>
+        <!-- Label -->
+        <text x="80" y="250" fill="rgba(251,113,133,0.4)" font-family="Syne" font-size="9.5" font-weight="700">PROCEDIMIENTO ALMACENADO</text>
+      </svg>
+    </div>
+
+    <div class="htag">SQL Server · Semana 09 · Base de Datos II · Infografía 5/5</div>
+    <h1 class="htitle">STORED<br><em>Procedures</em></h1>
+    <p class="hsub">Un Stored Procedure es un <strong>bloque de código T-SQL precompilado</strong> almacenado en la base de datos. Acepta parámetros de entrada y salida, ejecuta cualquier operación DML, maneja transacciones y errores, y puede devolver conjuntos de resultados o valores de retorno.</p>
+    <div class="hchips">
+      <span class="hchip">DML completo</span>
+      <span class="hchip">Parámetros IN / OUTPUT</span>
+      <span class="hchip">Precompilado y cacheado</span>
+      <span class="hchip">TRY / CATCH</span>
+      <span class="hchip">COMMIT / ROLLBACK</span>
+    </div>
+  </div>
+
+  <div class="wrap">
+
+    <div class="statbar">
+      <div class="stat"><div class="stat-n">✓</div><div class="stat-l">DML completo (INSERT/UPDATE/DELETE)</div></div>
+      <div class="stat"><div class="stat-n">✓</div><div class="stat-l">Parámetros INPUT y OUTPUT</div></div>
+      <div class="stat"><div class="stat-n">✓</div><div class="stat-l">Transacciones BEGIN/COMMIT/ROLLBACK</div></div>
+      <div class="stat"><div class="stat-n">✓</div><div class="stat-l">Precompilado — plan cacheado</div></div>
+      <div class="stat"><div class="stat-n">✗</div><div class="stat-l">No usable en SELECT (diferencia con UDF)</div></div>
+    </div>
+
+    <div class="sl">Sintaxis completa con manejo de errores y transacciones</div>
+    <p class="sh">Stored Procedure profesional — estructura correcta en producción</p>
+
+    <div class="codeblock">
+      <div class="cb-bar">
+        <span class="cbd cbd-r"></span><span class="cbd cbd-y"></span><span class="cbd cbd-g"></span>
+        <span class="cb-lang">T-SQL · Stored Procedure · SQL Server 2019+ · Producción</span>
+      </div>
+      <div class="cb-body">
+<span class="cm">-- ────────────────────────────────────────────────────────────</span>
+<span class="cm">-- usp_RegistrarVenta — SP completo con:</span>
+<span class="cm">--  · Parámetros de entrada y OUTPUT</span>
+<span class="cm">--  · SET NOCOUNT ON (elimina mensajes "N rows affected")</span>
+<span class="cm">--  · Transacción explícita BEGIN / COMMIT / ROLLBACK</span>
+<span class="cm">--  · Manejo de errores con TRY / CATCH y THROW</span>
+<span class="cm">-- ────────────────────────────────────────────────────────────</span>
+
+<span class="kw">CREATE OR ALTER PROCEDURE</span>  <span class="nm">dbo</span><span class="pn">.</span><span class="fn">usp_RegistrarVenta</span>  <span class="pn">(</span>
+
+    <span class="op">@ClienteID</span>    <span class="tp">INT</span><span class="pn">,</span>
+    <span class="op">@ProductoID</span>   <span class="tp">INT</span><span class="pn">,</span>
+    <span class="op">@Cantidad</span>     <span class="tp">INT</span><span class="pn">,</span>
+    <span class="op">@Descuento</span>    <span class="tp">DECIMAL</span><span class="pn">(5,2)</span>  <span class="pn">=</span>  <span class="vl">0.00</span><span class="pn">,</span>           <span class="cm">-- parámetro con DEFAULT</span>
+    <span class="op">@VentaID</span>      <span class="tp">INT</span>           <span class="kw">OUTPUT</span>                <span class="cm">-- parámetro de retorno</span>
+
+<span class="pn">)</span>
+<span class="kw">AS</span>
+<span class="kw">BEGIN</span>
+
+    <span class="kw">SET NOCOUNT ON</span><span class="pn">;</span>
+
+    <span class="kw">DECLARE</span>
+        <span class="op">@PrecioUnitario</span>  <span class="tp">DECIMAL</span><span class="pn">(10,2)</span><span class="pn">,</span>
+        <span class="op">@Subtotal</span>        <span class="tp">DECIMAL</span><span class="pn">(10,2)</span><span class="pn">,</span>
+        <span class="op">@IGV</span>             <span class="tp">DECIMAL</span><span class="pn">(10,2)</span><span class="pn">,</span>
+        <span class="op">@Total</span>           <span class="tp">DECIMAL</span><span class="pn">(10,2)</span><span class="pn">;</span>
+
+    <span class="kw">BEGIN TRY</span>
+
+        <span class="kw">BEGIN TRANSACTION</span><span class="pn">;</span>
+
+        <span class="cm">-- Obtener precio del producto</span>
+        <span class="kw">SELECT</span>  <span class="op">@PrecioUnitario</span>  <span class="pn">=</span>  PrecioVenta
+        <span class="kw">FROM</span>    Productos
+        <span class="kw">WHERE</span>   ProductoID  <span class="pn">=</span>  <span class="op">@ProductoID</span>
+          <span class="kw">AND</span>   Activo      <span class="pn">=</span>  <span class="vl">1</span><span class="pn">;</span>
+
+        <span class="kw">IF</span>  <span class="op">@PrecioUnitario</span>  <span class="kw">IS NULL</span>
+            <span class="kw">THROW</span>  <span class="vl">50001</span><span class="pn">,</span>  <span class="st">'Producto no existe o está inactivo.'</span><span class="pn">,</span>  <span class="vl">1</span><span class="pn">;</span>
+
+        <span class="cm">-- Calcular importes</span>
+        <span class="kw">SET</span>  <span class="op">@Subtotal</span>  <span class="pn">=</span>  <span class="op">@Cantidad</span>  <span class="pn">*</span>  <span class="op">@PrecioUnitario</span>  <span class="pn">*</span>  <span class="pn">(</span><span class="vl">1</span>  <span class="pn">-</span>  <span class="op">@Descuento</span>  <span class="pn">/</span>  <span class="vl">100</span><span class="pn">);</span>
+        <span class="kw">SET</span>  <span class="op">@IGV</span>       <span class="pn">=</span>  <span class="op">@Subtotal</span>  <span class="pn">*</span>  <span class="vl">0.18</span><span class="pn">;</span>
+        <span class="kw">SET</span>  <span class="op">@Total</span>     <span class="pn">=</span>  <span class="op">@Subtotal</span>  <span class="pn">+</span>  <span class="op">@IGV</span><span class="pn">;</span>
+
+        <span class="cm">-- Registrar la venta</span>
+        <span class="kw">INSERT INTO</span>  Ventas  <span class="pn">(</span>  ClienteID<span class="pn">,</span>  ProductoID<span class="pn">,</span>  Cantidad<span class="pn">,</span>
+                                   Subtotal<span class="pn">,</span>  IGV<span class="pn">,</span>  Total<span class="pn">,</span>  Fecha  <span class="pn">)</span>
+        <span class="kw">VALUES</span>       <span class="pn">(</span>  <span class="op">@ClienteID</span><span class="pn">,</span>  <span class="op">@ProductoID</span><span class="pn">,</span>  <span class="op">@Cantidad</span><span class="pn">,</span>
+                         <span class="op">@Subtotal</span><span class="pn">,</span>  <span class="op">@IGV</span><span class="pn">,</span>  <span class="op">@Total</span><span class="pn">,</span>  <span class="fn">GETDATE</span><span class="pn">()</span>  <span class="pn">);</span>
+
+        <span class="cm">-- Capturar el ID generado automáticamente</span>
+        <span class="kw">SET</span>  <span class="op">@VentaID</span>  <span class="pn">=</span>  <span class="fn">SCOPE_IDENTITY</span><span class="pn">();</span>
+
+        <span class="cm">-- Descontar stock</span>
+        <span class="kw">UPDATE</span>  Productos
+        <span class="kw">SET</span>     Stock  <span class="pn">=</span>  Stock  <span class="pn">-</span>  <span class="op">@Cantidad</span>
+        <span class="kw">WHERE</span>   ProductoID  <span class="pn">=</span>  <span class="op">@ProductoID</span><span class="pn">;</span>
+
+        <span class="kw">COMMIT TRANSACTION</span><span class="pn">;</span>
+
+    <span class="kw">END TRY</span>
+    <span class="kw">BEGIN CATCH</span>
+
+        <span class="kw">IF</span>  <span class="fn">XACT_STATE</span><span class="pn">()</span>  <span class="pn">&lt;&gt;</span>  <span class="vl">0</span>
+            <span class="kw">ROLLBACK TRANSACTION</span><span class="pn">;</span>
+
+        <span class="kw">THROW</span><span class="pn">;</span>   <span class="cm">-- re-lanza el error al llamante</span>
+
+    <span class="kw">END CATCH</span>
+
+<span class="kw">END</span><span class="pn">;</span>
+<span class="kw">GO</span>
+
+
+<span class="cm">-- ────────────────────────────────────────────────────────────</span>
+<span class="cm">-- EJECUTAR EL STORED PROCEDURE</span>
+<span class="cm">-- ────────────────────────────────────────────────────────────</span>
+
+<span class="kw">DECLARE</span>  <span class="op">@NuevoID</span>  <span class="tp">INT</span><span class="pn">;</span>
+
+<span class="kw">EXEC</span>  <span class="nm">dbo</span><span class="pn">.</span><span class="fn">usp_RegistrarVenta</span>
+    <span class="op">@ClienteID</span>   <span class="pn">=</span>  <span class="vl">10</span><span class="pn">,</span>
+    <span class="op">@ProductoID</span>  <span class="pn">=</span>  <span class="vl">5</span><span class="pn">,</span>
+    <span class="op">@Cantidad</span>    <span class="pn">=</span>  <span class="vl">3</span><span class="pn">,</span>
+    <span class="op">@Descuento</span>   <span class="pn">=</span>  <span class="vl">10.00</span><span class="pn">,</span>
+    <span class="op">@VentaID</span>     <span class="pn">=</span>  <span class="op">@NuevoID</span>  <span class="kw">OUTPUT</span><span class="pn">;</span>
+
+<span class="kw">SELECT</span>  <span class="st">'Venta registrada con ID: '</span>  <span class="pn">+</span>  <span class="fn">CAST</span><span class="pn">(</span><span class="op">@NuevoID</span>  <span class="kw">AS</span>  <span class="tp">NVARCHAR</span><span class="pn">)</span>  <span class="kw">AS</span>  Resultado<span class="pn">;</span>
+<span class="kw">GO</span>
+      </div>
+    </div>
+
+    <div class="div"></div>
+
+    <!-- Flujo de ejecución -->
+    <div class="sl">Flujo de ejecución de un SP</div>
+    <p class="sh">¿Qué ocurre internamente cuando se ejecuta EXEC usp_?</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-h">Parse & Resolución de nombres</div>
+          <div class="step-p">SQL Server analiza la sintaxis T-SQL del SP y verifica que todas las tablas, columnas y objetos referenciados existan. Los errores de sintaxis se detectan aquí antes de ejecutar nada.</div>
+          <div class="step-note">Si hay error de sintaxis: "Incorrect syntax near …" — el SP no se crea</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-h">Compilación y optimización del plan de ejecución</div>
+          <div class="step-p">El Query Optimizer genera el plan de ejecución óptimo basado en estadísticas de índices y distribución de datos. Este plan se almacena en el Plan Cache de SQL Server para reutilizarlo en ejecuciones posteriores.</div>
+          <div class="step-note">Plan cacheado = la 2ª ejecución es más rápida que la 1ª (no recompila)</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-h">Ejecución con los parámetros recibidos</div>
+          <div class="step-p">SQL Server ejecuta el plan usando los valores reales pasados como parámetros. Las variables locales se inicializan, las sentencias DML se ejecutan dentro de la transacción y el manejo de errores TRY/CATCH está activo.</div>
+          <div class="step-note">SCOPE_IDENTITY() captura el último IDENTITY insertado en la sesión actual</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-h">Retorno de resultados al llamante</div>
+          <div class="step-p">El SP puede devolver: conjuntos de resultados (SELECT), parámetros marcados como OUTPUT, el código de retorno RETURN n (0 = éxito), y mensajes de error vía THROW. El llamante decide qué hacer con cada uno.</div>
+          <div class="step-note">RETURN 0 = éxito · RETURN -1 = error de negocio · THROW = excepción</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="div"></div>
+
+    <!-- SP vs UDF -->
+    <div class="sl">Comparativa definitiva</div>
+    <p class="sh">Stored Procedure vs. User-Defined Function — ¿cuándo usar cada uno?</p>
+
+    <div class="tw">
+      <table>
+        <thead>
+          <tr><th>Característica</th><th>Stored Procedure</th><th>User-Defined Function</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>DML (INSERT / UPDATE / DELETE)</td>
+            <td><span class="badge b-ok">✓ Completo</span></td>
+            <td><span class="badge b-er">✗ No en tablas permanentes</span></td>
+          </tr>
+          <tr>
+            <td>Parámetros OUTPUT</td>
+            <td><span class="badge b-ok">✓ Sí — múltiples</span></td>
+            <td><span class="badge b-er">✗ No</span></td>
+          </tr>
+          <tr>
+            <td>Uso en SELECT / WHERE</td>
+            <td><span class="badge b-er">✗ No (solo EXEC)</span></td>
+            <td><span class="badge b-ok">✓ Sí — columna o tabla</span></td>
+          </tr>
+          <tr>
+            <td>Transacciones</td>
+            <td><span class="badge b-ok">✓ BEGIN / COMMIT / ROLLBACK</span></td>
+            <td><span class="badge b-wn">⚠ Limitado</span></td>
+          </tr>
+          <tr>
+            <td>TRY / CATCH completo</td>
+            <td><span class="badge b-ok">✓ Sí</span></td>
+            <td><span class="badge b-ok">✓ Sí</span></td>
+          </tr>
+          <tr>
+            <td>Llamar a otros SP</td>
+            <td><span class="badge b-ok">✓ EXEC anidado</span></td>
+            <td><span class="badge b-er">✗ No</span></td>
+          </tr>
+          <tr>
+            <td>PRINT / RAISERROR</td>
+            <td><span class="badge b-ok">✓ Sí</span></td>
+            <td><span class="badge b-er">✗ No</span></td>
+          </tr>
+          <tr>
+            <td>Devuelve Result SET</td>
+            <td><span class="badge b-ok">✓ Múltiples SELECTs</span></td>
+            <td><span class="badge b-wn">Solo TVF</span></td>
+          </tr>
+          <tr>
+            <td>Cuándo usar</td>
+            <td>Operaciones de negocio completas: registrar, actualizar, eliminar con validaciones</td>
+            <td>Cálculos reutilizables dentro de consultas SELECT</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Progreso ventajas -->
+    <div class="sl">Ventajas de los Stored Procedures en producción</div>
+    <div class="g2">
+      <div>
+        <div class="prog">
+          <div class="prog-row"><span class="prog-name">Seguridad (sin acceso directo a tablas)</span><span class="prog-val">100%</span></div>
+          <div class="prog-track"><div class="prog-fill" style="width:100%"></div></div>
+        </div>
+        <div class="prog">
+          <div class="prog-row"><span class="prog-name">Rendimiento (plan cacheado)</span><span class="prog-val">95%</span></div>
+          <div class="prog-track"><div class="prog-fill" style="width:95%"></div></div>
+        </div>
+        <div class="prog">
+          <div class="prog-row"><span class="prog-name">Mantenibilidad (lógica centralizada)</span><span class="prog-val">90%</span></div>
+          <div class="prog-track"><div class="prog-fill" style="width:90%"></div></div>
+        </div>
+        <div class="prog">
+          <div class="prog-row"><span class="prog-name">Reducción de tráfico de red</span><span class="prog-val">85%</span></div>
+          <div class="prog-track"><div class="prog-fill" style="width:85%"></div></div>
+        </div>
+      </div>
+      <div>
+        <div class="ibox neutral">
+          <div class="ibox-h">⚙ Convención de nombres</div>
+          <div class="ibox-p">Usa el prefijo <strong>usp_</strong> (user stored procedure) en lugar de <strong>sp_</strong>. El prefijo sp_ hace que SQL Server busque el procedimiento primero en la base de datos master antes de buscarlo en la BD actual, generando overhead innecesario en cada llamada.</div>
+          <div class="ibox-code">✓ dbo.usp_RegistrarVenta  ← correcto<br>✗ dbo.sp_RegistrarVenta   ← evitar</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="callout">
+    <div class="callout-ico">⚙️</div>
+    <div class="callout-body">
+      <div class="callout-h">Los Stored Procedures son la capa de lógica de negocio en la base de datos</div>
+      <div class="callout-p">Encapsulan operaciones completas con validaciones, transacciones y manejo de errores. Las aplicaciones solo ejecutan EXEC usp_NombreSP — nunca tienen acceso directo a las tablas base. Esto aumenta la seguridad, simplifica el mantenimiento y mejora el rendimiento gracias al plan de ejecución cacheado.</div>
+    </div>
+    <div class="callout-badge">Infografía 5 / 5</div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════ SCRIPT ═══════════════════ -->
+<script>
+const pages   = document.querySelectorAll('.page');
+const tabs    = document.querySelectorAll('.tab-btn');
+const accents = ['#2DDCA8', '#FFB347', '#A78BFA', '#38BDF8', '#FB7185'];
+
+function show(idx, btn) {
+  pages.forEach(p => p.classList.remove('active'));
+  tabs.forEach(t  => t.classList.remove('active'));
+  pages[idx].classList.add('active');
+  btn.classList.add('active');
+  document.documentElement.style.setProperty('--ac', accents[idx]);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  setTimeout(animateBars, 280);
+}
+
+function animateBars() {
+  document.querySelectorAll('.prog-fill').forEach(bar => {
+    const w = bar.style.width;
+    bar.style.width = '0%';
+    requestAnimationFrame(() =>
+      requestAnimationFrame(() => { bar.style.width = w; })
+    );
+  });
+}
+
+animateBars();
+</script>
+
+</body>
+</html>
